@@ -3,6 +3,8 @@ body { text-align: left; padding: 5vh 2vh;}
 a { color: inherit; text-decoration: ; }
 strong { color: black; }
 
+h1 {text-align: center; font: 16pt sans-serif; color: black; }
+
 div.ruta {font-size: 12pt; margin: 0; padding: 10pt; border: 1px solid black; }
 
 @media (min-width: 1024px) {
