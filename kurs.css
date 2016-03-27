@@ -4,6 +4,8 @@ a { color: inherit; text-decoration: ; }
 address { text-align: left; display: inline-block; font: inherit; }
 strong { color: black; }
 
+div.ruta {margin: 5vh; padding: 5vh; border: 1px solid #888; }
+
 @media (min-width: 1024px) {
   html { font-size: 2em; }
 }
