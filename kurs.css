@@ -4,7 +4,7 @@ a { color: inherit; text-decoration: ; }
 address { text-align: left; display: inline-block; font: inherit; }
 strong { color: black; }
 
-div.ruta {margin: 2vh; padding: 3vh; border: 1px solid #888; }
+div.ruta {margin: 0; padding: 2pt; border: 1px solid #888; }
 
 @media (min-width: 1024px) {
   html { font-size: 2em; }
