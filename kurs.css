@@ -1,9 +1,9 @@
 html { font: 14pt sans-serif; color: black; }
 body { text-align: left; padding: 5vh 2vh;}
-a { color: inherit; text-decoration: ; }
+a { color: inherit; }
 strong { color: black; }
 
-h1 {text-align: center; font: 16pt sans-serif; font-weight: bold; color: black; }
+h1 {text-align: center; font: 16pt sans-serif; font-weight: bold; color: black; margin-bottom: 5vh; }
 
 div.ruta {font-size: 12pt; margin: 0; padding: 10pt; border: 1px solid black; }
 
