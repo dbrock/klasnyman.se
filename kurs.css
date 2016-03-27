@@ -1,16 +1,6 @@
 html { font: 14pt sans-serif; color: black; }
-
 body { text-align: left; padding: 5vh 2vh;}
-
 a { color: inherit; }
-
-strong { color: black; }
-
-h1 {text-align: center; font: 18pt sans-serif; font-weight: bold; color: black; margin-bottom: 5vh; }
-
+strong { }
+h1 {text-align: center; font: 18pt; font-weight: bold; margin-bottom: 5vh; }
 div.ruta {font-size: 12pt; margin: 0; padding: 10pt; border: 1px solid black; }
-
-
-@media (min-width: 1024px) {
-  html { }
-}
