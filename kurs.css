@@ -1,9 +1,9 @@
-html { font: 14pt/1.2 sans-serif; color: #CCCCCC; }
+html { font: 14pt/1.2 sans-serif; color: DarkGrey; }
 body { text-align: left; padding: 5vh 2vh;}
 a { color: inherit; text-decoration: ; }
 strong { color: black; }
 
-div.ruta {margin: 0; padding: 10pt; border: 1px solid #CCCCCC; }
+div.ruta {margin: 0; padding: 10pt; border: 1px solid DarkGray; }
 
 @media (min-width: 1024px) {
   html { font-size: 2em; }
