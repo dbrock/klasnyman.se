@@ -4,19 +4,50 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="index.css">
+    <script>
+var now = new Date
+
+if (now > new Date(2016, 3, 19, 12, 0) &&
+    now < new Date(2016, 3, 19, 20, 45)) {
+  window.tid1.style.display = "initial"
+}
+if (now > new Date(2016, 3, 19, 12, 0) &&
+    now < new Date(2016, 3, 19, 15, 0)) {
+  window.tid2.style.display = "initial"
+}
+if (now > new Date(2016, 3, 19, 12, 0) &&
+    now < new Date(2016, 3, 19, 15, 0)) {
+  window.tid3.style.display = "initial"
+}
+
+    </script>
   </head>
   <body>
     <address>
       <strong>Klas Nyman</strong>
       <a href="https://twitter.com/klanym">@klanym</a>
       <br>
- <!--     <a href="mailto:klas@klasnyman.se">klas@klasnyman.se</a>
-  -->    <br>
-<!--
-      <a href="https://klanym.wordpress.com">Blogg för elever</a>
-      <br>
--->      <br>
-      <a href="http://goo.gl/forms/470SuKYqun">Mattediagnos</a>
+
+<div id=tid1 style="display: none">
+<a href="http://goo.gl/forms/470SuKYqun">Mattediagnos</a>
+<br>
+</div>
+
+
+<div id=tid2 style="display: none">
+Bara synligt idag.
+<br>
+</div>
+
+<div id=tid3 style="display: none">
+Nåt annat som inte borde synas.
+<br>
+</div>
+
+<div>
+<a href="https://klanym.wordpress.com">Blogg</a>
+</div>
+
     </address>
   </body>
 </html>
