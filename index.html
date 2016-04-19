@@ -15,17 +15,34 @@
 <a href="http://goo.gl/forms/470SuKYqun">Mattediagnos</a>
 <br><br>
 </div>
-
+<script>
+var now = new Date
+if (now > new Date(2016, 3, 19, 12, 0) &&
+    now < new Date(2016, 3, 19, 20, 55)) {
+  window.tid1.style.display = "initial" }
+</script>
 
 <div id=tid2 style="display: none">
-Bara synligt idag.
+Två. Bara synligt idag.
 <br><br>
 </div>
+<script>
+var now = new Date
+if (now > new Date(2016, 3, 19, 12, 0) &&
+    now < new Date(2016, 3, 19, 20, 56)) {
+  window.tid2.style.display = "initial" }
+</script>
 
 <div id=tid3 style="display: none">
-Nåt annat som inte borde synas.
+Tre. Nåt annat som inte borde synas.
 <br><br>
 </div>
+<script>
+var now = new Date
+if (now > new Date(2016, 3, 19, 12, 0) &&
+    now < new Date(2016, 3, 19, 20, 57)) {
+  window.tid3.style.display = "initial" }
+</script>
 
 <div>
 <a href="https://klanym.wordpress.com">Blogg</a>
@@ -34,23 +51,4 @@ Nåt annat som inte borde synas.
 
     </address>
   </body>
-
-    <script>
-var now = new Date
-
-if (now > new Date(2016, 3, 19, 12, 0) &&
-    now < new Date(2016, 3, 19, 20, 45)) {
-  window.tid1.style.display = "initial"
-}
-if (now > new Date(2016, 3, 19, 12, 0) &&
-    now < new Date(2016, 3, 19, 15, 0)) {
-  window.tid2.style.display = "initial"
-}
-if (now > new Date(2016, 3, 19, 12, 0) &&
-    now < new Date(2016, 3, 19, 15, 0)) {
-  window.tid3.style.display = "initial"
-}
-
-    </script>
-
 </html>
