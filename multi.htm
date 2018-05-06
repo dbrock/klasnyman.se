@@ -1,0 +1,209 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv=""Content-type"" content=""text/html;charset=utf-8"" />
+<script src="multi.js">
+</script>
+</head>
+<style>
+td {
+    width: 50px;
+    border: 1px solid grey;
+}
+table {border-collapse: collapse;}
+
+
+</style>
+
+<body>
+
+<p>Multiplikation</p>
+  <p>Svara p&aring;: <a href="#" onClick="gissa(5);">5 uppgifter.</a>
+    <a href="#" onClick="gissa(10);">10 uppgifter.</a>
+    <a href="#" onClick="gissa(15);">15 uppgifter.</a>
+  </p>
+  <p>Inst&auml;llning: <a href="#" onClick="statusEasy();">Easy.</a>
+    <a href="#" onClick="statusHard();">Hard.</a>
+    <a href="#" onClick="statusHardOnly();">Hard Only.</a>
+    <a href="#" onClick="statusMedium();">Medium.</a>
+    <a href="#" onClick="statusMediumOnly();">Medium Only.</a>
+    <a href="#" onClick="statusSvaraHornet();">Sv&aring;ra h&ouml;rnet.</a>
+    <a href="#" onClick="statusLevel1();">Niv&aring 1.</a>
+    <a href="#" onClick="statusRemoveGreen();">Rensa de gr&ouml;na.</a>
+    <a href="#" onClick="resetScore();">Reset score.</a>
+  </p>
+
+
+  <table>
+    <tr><td onClick="toggleStatusAll();"></td>
+      <td onClick="toggleStatusColumn(0);">0</td>
+      <td onClick="toggleStatusColumn(1);">1</td>
+      <td onClick="toggleStatusColumn(2);">2</td>
+      <td onClick="toggleStatusColumn(3);">3</td>
+      <td onClick="toggleStatusColumn(4);">4</td>
+      <td onClick="toggleStatusColumn(5);">5</td>
+      <td onClick="toggleStatusColumn(6);">6</td>
+      <td onClick="toggleStatusColumn(7);">7</td>
+      <td onClick="toggleStatusColumn(8);">8</td>
+      <td onClick="toggleStatusColumn(9);">9</td>
+      <td onClick="toggleStatusColumn(10);">10</td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(0);">0</td>
+      <td onClick="toggleStatus(0,0);" id="d0x0"></td>
+      <td onClick="toggleStatus(0,1);" id="d0x1"></td>
+      <td onClick="toggleStatus(0,2);" id="d0x2"></td>
+      <td onClick="toggleStatus(0,3);" id="d0x3"></td>
+      <td onClick="toggleStatus(0,4);" id="d0x4"></td>
+      <td onClick="toggleStatus(0,5);" id="d0x5"></td>
+      <td onClick="toggleStatus(0,6);" id="d0x6"></td>
+      <td onClick="toggleStatus(0,7);" id="d0x7"></td>
+      <td onClick="toggleStatus(0,8);" id="d0x8"></td>
+      <td onClick="toggleStatus(0,9);" id="d0x9"></td>
+      <td onClick="toggleStatus(0,10);" id="d0x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(1);">1</td>
+      <td onClick="toggleStatus(1,0);" id="d1x0"></td>
+      <td onClick="toggleStatus(1,1);" id="d1x1"></td>
+      <td onClick="toggleStatus(1,2);" id="d1x2"></td>
+      <td onClick="toggleStatus(1,3);" id="d1x3"></td>
+      <td onClick="toggleStatus(1,4);" id="d1x4"></td>
+      <td onClick="toggleStatus(1,5);" id="d1x5"></td>
+      <td onClick="toggleStatus(1,6);" id="d1x6"></td>
+      <td onClick="toggleStatus(1,7);" id="d1x7"></td>
+      <td onClick="toggleStatus(1,8);" id="d1x8"></td>
+      <td onClick="toggleStatus(1,9);" id="d1x9"></td>
+      <td onClick="toggleStatus(1,10);" id="d1x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(2);">2</td>
+      <td onClick="toggleStatus(2,0);" id="d2x0"></td>
+      <td onClick="toggleStatus(2,1);" id="d2x1"></td>
+      <td onClick="toggleStatus(2,2);" id="d2x2"></td>
+      <td onClick="toggleStatus(2,3);" id="d2x3"></td>
+      <td onClick="toggleStatus(2,4);" id="d2x4"></td>
+      <td onClick="toggleStatus(2,5);" id="d2x5"></td>
+      <td onClick="toggleStatus(2,6);" id="d2x6"></td>
+      <td onClick="toggleStatus(2,7);" id="d2x7"></td>
+      <td onClick="toggleStatus(2,8);" id="d2x8"></td>
+      <td onClick="toggleStatus(2,9);" id="d2x9"></td>
+      <td onClick="toggleStatus(2,10);" id="d2x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(3);">3</td>
+      <td onClick="toggleStatus(3,0);" id="d3x0"></td>
+      <td onClick="toggleStatus(3,1);" id="d3x1"></td>
+      <td onClick="toggleStatus(3,2);" id="d3x2"></td>
+      <td onClick="toggleStatus(3,3);" id="d3x3"></td>
+      <td onClick="toggleStatus(3,4);" id="d3x4"></td>
+      <td onClick="toggleStatus(3,5);" id="d3x5"></td>
+      <td onClick="toggleStatus(3,6);" id="d3x6"></td>
+      <td onClick="toggleStatus(3,7);" id="d3x7"></td>
+      <td onClick="toggleStatus(3,8);" id="d3x8"></td>
+      <td onClick="toggleStatus(3,9);" id="d3x9"></td>
+      <td onClick="toggleStatus(3,10);" id="d3x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(4);">4</td>
+      <td onClick="toggleStatus(4,0);" id="d4x0"></td>
+      <td onClick="toggleStatus(4,1);" id="d4x1"></td>
+      <td onClick="toggleStatus(4,2);" id="d4x2"></td>
+      <td onClick="toggleStatus(4,3);" id="d4x3"></td>
+      <td onClick="toggleStatus(4,4);" id="d4x4"></td>
+      <td onClick="toggleStatus(4,5);" id="d4x5"></td>
+      <td onClick="toggleStatus(4,6);" id="d4x6"></td>
+      <td onClick="toggleStatus(4,7);" id="d4x7"></td>
+      <td onClick="toggleStatus(4,8);" id="d4x8"></td>
+      <td onClick="toggleStatus(4,9);" id="d4x9"></td>
+      <td onClick="toggleStatus(4,10);" id="d4x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(5);">5</td>
+      <td onClick="toggleStatus(5,0);" id="d5x0"></td>
+      <td onClick="toggleStatus(5,1);" id="d5x1"></td>
+      <td onClick="toggleStatus(5,2);" id="d5x2"></td>
+      <td onClick="toggleStatus(5,3);" id="d5x3"></td>
+      <td onClick="toggleStatus(5,4);" id="d5x4"></td>
+      <td onClick="toggleStatus(5,5);" id="d5x5"></td>
+      <td onClick="toggleStatus(5,6);" id="d5x6"></td>
+      <td onClick="toggleStatus(5,7);" id="d5x7"></td>
+      <td onClick="toggleStatus(5,8);" id="d5x8"></td>
+      <td onClick="toggleStatus(5,9);" id="d5x9"></td>
+      <td onClick="toggleStatus(5,10);" id="d5x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(6);">6</td>
+      <td onClick="toggleStatus(6,0);" id="d6x0"></td>
+      <td onClick="toggleStatus(6,1);" id="d6x1"></td>
+      <td onClick="toggleStatus(6,2);" id="d6x2"></td>
+      <td onClick="toggleStatus(6,3);" id="d6x3"></td>
+      <td onClick="toggleStatus(6,4);" id="d6x4"></td>
+      <td onClick="toggleStatus(6,5);" id="d6x5"></td>
+      <td onClick="toggleStatus(6,6);" id="d6x6"></td>
+      <td onClick="toggleStatus(6,7);" id="d6x7"></td>
+      <td onClick="toggleStatus(6,8);" id="d6x8"></td>
+      <td onClick="toggleStatus(6,9);" id="d6x9"></td>
+      <td onClick="toggleStatus(6,10);" id="d6x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(7);">7</td>
+      <td onClick="toggleStatus(7,0);" id="d7x0"></td>
+      <td onClick="toggleStatus(7,1);" id="d7x1"></td>
+      <td onClick="toggleStatus(7,2);" id="d7x2"></td>
+      <td onClick="toggleStatus(7,3);" id="d7x3"></td>
+      <td onClick="toggleStatus(7,4);" id="d7x4"></td>
+      <td onClick="toggleStatus(7,5);" id="d7x5"></td>
+      <td onClick="toggleStatus(7,6);" id="d7x6"></td>
+      <td onClick="toggleStatus(7,7);" id="d7x7"></td>
+      <td onClick="toggleStatus(7,8);" id="d7x8"></td>
+      <td onClick="toggleStatus(7,9);" id="d7x9"></td>
+      <td onClick="toggleStatus(7,10);" id="d7x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(8);">8</td>
+      <td onClick="toggleStatus(8,0);" id="d8x0"></td>
+      <td onClick="toggleStatus(8,1);" id="d8x1"></td>
+      <td onClick="toggleStatus(8,2);" id="d8x2"></td>
+      <td onClick="toggleStatus(8,3);" id="d8x3"></td>
+      <td onClick="toggleStatus(8,4);" id="d8x4"></td>
+      <td onClick="toggleStatus(8,5);" id="d8x5"></td>
+      <td onClick="toggleStatus(8,6);" id="d8x6"></td>
+      <td onClick="toggleStatus(8,7);" id="d8x7"></td>
+      <td onClick="toggleStatus(8,8);" id="d8x8"></td>
+      <td onClick="toggleStatus(8,9);" id="d8x9"></td>
+      <td onClick="toggleStatus(8,10);" id="d8x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(9);">9</td>
+      <td onClick="toggleStatus(9,0);" id="d9x0"></td>
+      <td onClick="toggleStatus(9,1);" id="d9x1"></td>
+      <td onClick="toggleStatus(9,2);" id="d9x2"></td>
+      <td onClick="toggleStatus(9,3);" id="d9x3"></td>
+      <td onClick="toggleStatus(9,4);" id="d9x4"></td>
+      <td onClick="toggleStatus(9,5);" id="d9x5"></td>
+      <td onClick="toggleStatus(9,6);" id="d9x6"></td>
+      <td onClick="toggleStatus(9,7);" id="d9x7"></td>
+      <td onClick="toggleStatus(9,8);" id="d9x8"></td>
+      <td onClick="toggleStatus(9,9);" id="d9x9"></td>
+      <td onClick="toggleStatus(9,10);" id="d9x10"></td>
+    </tr>
+    <tr>
+      <td onClick="toggleStatusRow(10);">10</td>
+      <td onClick="toggleStatus(10,0);" id="d10x0"></td>
+      <td onClick="toggleStatus(10,1);" id="d10x1"></td>
+      <td onClick="toggleStatus(10,2);" id="d10x2"></td>
+      <td onClick="toggleStatus(10,3);" id="d10x3"></td>
+      <td onClick="toggleStatus(10,4);" id="d10x4"></td>
+      <td onClick="toggleStatus(10,5);" id="d10x5"></td>
+      <td onClick="toggleStatus(10,6);" id="d10x6"></td>
+      <td onClick="toggleStatus(10,7);" id="d10x7"></td>
+      <td onClick="toggleStatus(10,8);" id="d10x8"></td>
+      <td onClick="toggleStatus(10,9);" id="d10x9"></td>
+      <td onClick="toggleStatus(10,10);" id="d10x10"></td>
+    </tr>
+  </table>
+</body>
+
+</html>
