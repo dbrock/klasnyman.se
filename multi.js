@@ -64,6 +64,7 @@ function gissning()
 
   nyFraga();
   updateScore();
+  document.getElementById("gissningText").focus();
 
 }
 
