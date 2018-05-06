@@ -1,11 +1,38 @@
 "use strict";
 
 let antalRatt = 0;
+let antalFel = 0;
 let ratt = matrix(11,11,0);
 let fel = matrix(11,11,0);
 let status = matrix(11,11,0);
 let msgSvar = ``;
 
+let multiplikator =  Math.floor((Math.random() * 11));
+let multiplikand =  Math.floor((Math.random() * 11));
+
+nyFraga();
+
+
+function toggleTable() {
+  if (document.getElementById("tableResultat").style.visibility == "hidden") {
+    document.getElementById("tableResultat").style.visibility = "visible";
+  } else {
+    document.getElementById("tableResultat").style.visibility = "hidden";
+  }
+}
+function nyFraga() {
+  while (true) {
+    multiplikator = Math.floor((Math.random() * 11));
+    multiplikand = Math.floor((Math.random() * 11));
+    if (getStatus(multiplikator, multiplikand) == 0) { break; }
+  }
+
+  document.getElementById("fraga").innerHTML = `${multiplikator} * ${multiplikand}`;
+  document.getElementById("gissningText").value = "";
+  document.getElementById("rattFel").innerHTML = `${msgSvar}`;
+  document.getElementById("ratt").innerHTML = `${antalRatt}`;
+  document.getElementById("totalt").innerHTML = `${antalRatt+antalFel}`;
+}
 function matrix (numrows, numcols, initial) {
     var arr = [];
     for (var i = 0; i < numrows; ++i) {
@@ -18,8 +45,34 @@ function matrix (numrows, numcols, initial) {
     return arr;
 }
 
+
+function gissning()
+{
+  var gissningText = document.getElementById("gissningText").value;
+
+  if (gissningText == "") {return;}
+
+  if (gissningText == multiplikator * multiplikand) {
+    msgSvar = 'R&auml;tt svar!'; // Rätt svar
+    antalRatt++;
+    ratt[multiplikator][multiplikand]=ratt[multiplikator][multiplikand] + 1;
+  } else {
+    msgSvar = "Nope."; // Fel svar
+    antalFel++;
+    fel[multiplikator][multiplikand]=fel[multiplikator][multiplikand] + 1;
+  }
+
+  nyFraga();
+  updateScore();
+
+}
+
 function changeStatus(a,b,newStatus) {
   status[a][b]=newStatus;
+  if (newStatus == 1 && multiplikator == a && multiplikand == b) {
+    nyFraga();
+  }
+
   updateStatus();
 }
 
@@ -136,6 +189,9 @@ function toggleStatus(a,b) {
   if (status[a][b] > 1) {
     status[a][b] = 0;
   }
+  if (status[a][b] == 1 && multiplikator == a && multiplikand == b) {
+    nyFraga();
+  }
   updateStatus();
 }
 function toggleStatusRow(a) {
@@ -160,29 +216,6 @@ function getStatus(a,b) {
   return status[a][b];
 }
 
-function question() {
-  let a = 0;
-  let b = 0;
-
-  while (true) {
-    a = Math.floor((Math.random() * 11));
-    b = Math.floor((Math.random() * 11));
-    if (getStatus(a, b) == 0) { break; }
-  }
-
-  let svar = prompt(`${msgSvar} ${a} * ${b}`, '');
-  if (svar === null) {
-      return 'bryt'; //break out of the function early
-  }
-  else if (svar == a * b) {
-    msgSvar = 'Korrekt! '; // Rätt svar
-    antalRatt++;
-    ratt[a][b]=ratt[a][b] + 1;
-  } else {
-    msgSvar = "Fel. "; // Fel svar
-    fel[a][b]=fel[a][b] + 1;
-  }
-}
 function updateStatus() {
   for (var j = 0; j < 11; j++) {
     for (var i = 0; i < 11; i++) {
@@ -193,6 +226,12 @@ function updateStatus() {
       }
     }
   }
+  document.getElementById("fraga").innerHTML = `${multiplikator} * ${multiplikand}`;
+  document.getElementById("gissningText").value = "";
+  document.getElementById("rattFel").innerHTML = `${msgSvar}`;
+  document.getElementById("ratt").innerHTML = `${antalRatt}`;
+  document.getElementById("totalt").innerHTML = `${antalRatt+antalFel}`;
+
 }
 
 function updateScore() {
@@ -218,12 +257,8 @@ function resetScore() {
       ratt[i][j] = 0;
     }
   }
+  antalFel = 0;
+  antalRatt = 0;
   updateScore();
-}
-function gissa(antal) {
-  msgSvar = "";
-  for (var i = 0; i < antal; i++) {
-      if (question() == 'bryt') {break;}
-  }
-  updateScore();
+  updateStatus();
 }
