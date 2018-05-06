@@ -27,7 +27,7 @@ function nyFraga() {
     if (getStatus(multiplikator, multiplikand) == 0) { break; }
   }
 
-  document.getElementById("fraga").innerHTML = `${multiplikator} * ${multiplikand}`;
+  document.getElementById("fraga").innerHTML = `${multiplikator} &middot; ${multiplikand}`;
   document.getElementById("gissningText").value = "";
   document.getElementById("rattFel").innerHTML = `${msgSvar}`;
   document.getElementById("ratt").innerHTML = `${antalRatt}`;
