@@ -31,7 +31,9 @@ table {border-collapse: collapse;}
   <hr />
   <div style="font-size: 200%; text-align: center;">
     <span id="fraga"></span><br/>
-    <input autofocus id="gissningText" type="tel" pattern="[0-9]*" style="font-size: 100%;" value="" onkeydown = "if (event.keyCode == 13) document.getElementById('gissningKnapp').click()" />
+    <input autofocus id="gissningText" type="tel" pattern="[0-9]*" style="font-size: 100%;" value=""
+    onkeydown = "if (event.keyCode == 13) document.getElementById('gissningKnapp').click()"
+onblur="document.getElementById('gissningKnapp').click()" />
     <button id="gissningKnapp" onclick="gissning()" style="font-size: 100%; visibility: hidden;">OK</button>
     <br/>
     <span id="rattFel"></span>
