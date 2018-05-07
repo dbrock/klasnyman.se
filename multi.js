@@ -286,7 +286,7 @@ function updateScore() {
       if (ratt[j][i] + fel[j][i] == 0) {
         document.getElementById("d"+j+"x"+i).innerHTML = "";
       } else {
-        document.getElementById("d"+j+"x"+i).innerHTML = ratt[j][i] + " av " + (ratt[j][i] + fel[j][i]);
+        document.getElementById("d"+j+"x"+i).innerHTML = ratt[j][i] + " / " + (ratt[j][i] + fel[j][i]);
         if (fel[j][i] == 0) {
           document.getElementById("d"+j+"x"+i).style.color = "darkgreen";
         } else if (ratt[j][i] == 0) {
