@@ -1,218 +1,238 @@
 
 <!DOCTYPE HTML>
 <html>
-<head>
-<meta http-equiv=""Content-type"" content=""text/html;charset=utf-8"" />
-<link rel="stylesheet" type="text/css" href="multi.css">
-</head>
-<style>
-td {
-    width: 50px;
-    border: 1px solid grey;
-}
-table {border-collapse: collapse;}
+  <head>
+<!--    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+-->
+    <link rel="stylesheet" type="text/css" href="multi.css">
+  </head>
+
+  <style>
+  td {
+      width: 50px;
+      border: 1px solid grey;
+  }
+  table {
+      border-collapse: collapse;
+      background-color: white;
+      color: black;
+  }
+  </style>
+
+  <body style="text-align: center;">
 
 
-</style>
+    <div class="container">
 
-<body style="text-align: center;">
+      <header>
+        <h2><a href="#"> Multi v0.1</a></h2>
+        <nav>
+          <ul>
+            <li>
+              <a href="#" title="Niv1" onClick="statusLevel1();">Niv&aring 1</a>
+            </li>
+            <li>
+              <a href="#" title="Medium" onClick="statusMedium();">Medium</a>
+            </li>
+            <li>
+              <a href="#" title="SvaraHornet" onClick="statusSvaraHornet();">Sv&aring;ra h&ouml;rnet</a>
+            </li>
+            <li>
+              <a class="btn" href="#" onClick="toggleTable();">Visa/d&ouml;lj resultattabell</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
 
-    <p>Inst&auml;llning: <a href="#" onClick="statusEasy();">Easy.</a>
-      <a href="#" onClick="statusHard();">Hard.</a>
-      <a href="#" onClick="statusHardOnly();">Hard Only.</a>
-      <a href="#" onClick="statusMedium();">Medium.</a>
-      <a href="#" onClick="statusMediumOnly();">Medium Only.</a>
-      <a href="#" onClick="statusSvaraHornet();">Sv&aring;ra h&ouml;rnet.</a>
-      <a href="#" onClick="statusLevel1();">Niv&aring 1.</a>
-      <a href="#" onClick="statusRemoveGreen();">Rensa de gr&ouml;na.</a>
-      <a href="#" onClick="resetScore();">Reset score.</a>
-      <a href="#" onClick="toggleTable();">Visa/d&ouml;lj tabell.</a>
-    </p>
-  <hr />
-  <div style="font-size: 200%; text-align: center;">
-    <span id="fraga"></span><br/>
-    <input autofocus id="guessText" type="tel" pattern="[0-9]*" style="font-size: 100%;" value=""
-    onkeydown = "if (event.keyCode == 13) document.getElementById('guessKnapp').click()"
-    onblur="document.getElementById('guessKnapp').click()" />
-    <button id="guessKnapp" onclick="guess()" style="font-size: 100%; visibility: hidden;">OK</button>
-    <br/>
-    <span id="rattFel"></span>
-    <br/>
-  </div>
-  <p>Totalt: <span id="ratt"></span> r&auml;tt av <span id="totalt"></span>.</p>
-  <hr />
-  <div style="text-align: center;">
-    <table id="tableResultat" style="margin-left: auto; margin-right: auto;">
-      <tr><td onClick="changeStatusAll();"></td>
-        <td onClick="changeStatusColumn(0);">0</td>
-        <td onClick="changeStatusColumn(1);">1</td>
-        <td onClick="changeStatusColumn(2);">2</td>
-        <td onClick="changeStatusColumn(3);">3</td>
-        <td onClick="changeStatusColumn(4);">4</td>
-        <td onClick="changeStatusColumn(5);">5</td>
-        <td onClick="changeStatusColumn(6);">6</td>
-        <td onClick="changeStatusColumn(7);">7</td>
-        <td onClick="changeStatusColumn(8);">8</td>
-        <td onClick="changeStatusColumn(9);">9</td>
-        <td onClick="changeStatusColumn(10);">10</td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(0);">0</td>
-        <td onClick="changeStatus(0,0);" id="d0x0"></td>
-        <td onClick="changeStatus(0,1);" id="d0x1"></td>
-        <td onClick="changeStatus(0,2);" id="d0x2"></td>
-        <td onClick="changeStatus(0,3);" id="d0x3"></td>
-        <td onClick="changeStatus(0,4);" id="d0x4"></td>
-        <td onClick="changeStatus(0,5);" id="d0x5"></td>
-        <td onClick="changeStatus(0,6);" id="d0x6"></td>
-        <td onClick="changeStatus(0,7);" id="d0x7"></td>
-        <td onClick="changeStatus(0,8);" id="d0x8"></td>
-        <td onClick="changeStatus(0,9);" id="d0x9"></td>
-        <td onClick="changeStatus(0,10);" id="d0x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(1);">1</td>
-        <td onClick="changeStatus(1,0);" id="d1x0"></td>
-        <td onClick="changeStatus(1,1);" id="d1x1"></td>
-        <td onClick="changeStatus(1,2);" id="d1x2"></td>
-        <td onClick="changeStatus(1,3);" id="d1x3"></td>
-        <td onClick="changeStatus(1,4);" id="d1x4"></td>
-        <td onClick="changeStatus(1,5);" id="d1x5"></td>
-        <td onClick="changeStatus(1,6);" id="d1x6"></td>
-        <td onClick="changeStatus(1,7);" id="d1x7"></td>
-        <td onClick="changeStatus(1,8);" id="d1x8"></td>
-        <td onClick="changeStatus(1,9);" id="d1x9"></td>
-        <td onClick="changeStatus(1,10);" id="d1x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(2);">2</td>
-        <td onClick="changeStatus(2,0);" id="d2x0"></td>
-        <td onClick="changeStatus(2,1);" id="d2x1"></td>
-        <td onClick="changeStatus(2,2);" id="d2x2"></td>
-        <td onClick="changeStatus(2,3);" id="d2x3"></td>
-        <td onClick="changeStatus(2,4);" id="d2x4"></td>
-        <td onClick="changeStatus(2,5);" id="d2x5"></td>
-        <td onClick="changeStatus(2,6);" id="d2x6"></td>
-        <td onClick="changeStatus(2,7);" id="d2x7"></td>
-        <td onClick="changeStatus(2,8);" id="d2x8"></td>
-        <td onClick="changeStatus(2,9);" id="d2x9"></td>
-        <td onClick="changeStatus(2,10);" id="d2x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(3);">3</td>
-        <td onClick="changeStatus(3,0);" id="d3x0"></td>
-        <td onClick="changeStatus(3,1);" id="d3x1"></td>
-        <td onClick="changeStatus(3,2);" id="d3x2"></td>
-        <td onClick="changeStatus(3,3);" id="d3x3"></td>
-        <td onClick="changeStatus(3,4);" id="d3x4"></td>
-        <td onClick="changeStatus(3,5);" id="d3x5"></td>
-        <td onClick="changeStatus(3,6);" id="d3x6"></td>
-        <td onClick="changeStatus(3,7);" id="d3x7"></td>
-        <td onClick="changeStatus(3,8);" id="d3x8"></td>
-        <td onClick="changeStatus(3,9);" id="d3x9"></td>
-        <td onClick="changeStatus(3,10);" id="d3x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(4);">4</td>
-        <td onClick="changeStatus(4,0);" id="d4x0"></td>
-        <td onClick="changeStatus(4,1);" id="d4x1"></td>
-        <td onClick="changeStatus(4,2);" id="d4x2"></td>
-        <td onClick="changeStatus(4,3);" id="d4x3"></td>
-        <td onClick="changeStatus(4,4);" id="d4x4"></td>
-        <td onClick="changeStatus(4,5);" id="d4x5"></td>
-        <td onClick="changeStatus(4,6);" id="d4x6"></td>
-        <td onClick="changeStatus(4,7);" id="d4x7"></td>
-        <td onClick="changeStatus(4,8);" id="d4x8"></td>
-        <td onClick="changeStatus(4,9);" id="d4x9"></td>
-        <td onClick="changeStatus(4,10);" id="d4x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(5);">5</td>
-        <td onClick="changeStatus(5,0);" id="d5x0"></td>
-        <td onClick="changeStatus(5,1);" id="d5x1"></td>
-        <td onClick="changeStatus(5,2);" id="d5x2"></td>
-        <td onClick="changeStatus(5,3);" id="d5x3"></td>
-        <td onClick="changeStatus(5,4);" id="d5x4"></td>
-        <td onClick="changeStatus(5,5);" id="d5x5"></td>
-        <td onClick="changeStatus(5,6);" id="d5x6"></td>
-        <td onClick="changeStatus(5,7);" id="d5x7"></td>
-        <td onClick="changeStatus(5,8);" id="d5x8"></td>
-        <td onClick="changeStatus(5,9);" id="d5x9"></td>
-        <td onClick="changeStatus(5,10);" id="d5x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(6);">6</td>
-        <td onClick="changeStatus(6,0);" id="d6x0"></td>
-        <td onClick="changeStatus(6,1);" id="d6x1"></td>
-        <td onClick="changeStatus(6,2);" id="d6x2"></td>
-        <td onClick="changeStatus(6,3);" id="d6x3"></td>
-        <td onClick="changeStatus(6,4);" id="d6x4"></td>
-        <td onClick="changeStatus(6,5);" id="d6x5"></td>
-        <td onClick="changeStatus(6,6);" id="d6x6"></td>
-        <td onClick="changeStatus(6,7);" id="d6x7"></td>
-        <td onClick="changeStatus(6,8);" id="d6x8"></td>
-        <td onClick="changeStatus(6,9);" id="d6x9"></td>
-        <td onClick="changeStatus(6,10);" id="d6x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(7);">7</td>
-        <td onClick="changeStatus(7,0);" id="d7x0"></td>
-        <td onClick="changeStatus(7,1);" id="d7x1"></td>
-        <td onClick="changeStatus(7,2);" id="d7x2"></td>
-        <td onClick="changeStatus(7,3);" id="d7x3"></td>
-        <td onClick="changeStatus(7,4);" id="d7x4"></td>
-        <td onClick="changeStatus(7,5);" id="d7x5"></td>
-        <td onClick="changeStatus(7,6);" id="d7x6"></td>
-        <td onClick="changeStatus(7,7);" id="d7x7"></td>
-        <td onClick="changeStatus(7,8);" id="d7x8"></td>
-        <td onClick="changeStatus(7,9);" id="d7x9"></td>
-        <td onClick="changeStatus(7,10);" id="d7x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(8);">8</td>
-        <td onClick="changeStatus(8,0);" id="d8x0"></td>
-        <td onClick="changeStatus(8,1);" id="d8x1"></td>
-        <td onClick="changeStatus(8,2);" id="d8x2"></td>
-        <td onClick="changeStatus(8,3);" id="d8x3"></td>
-        <td onClick="changeStatus(8,4);" id="d8x4"></td>
-        <td onClick="changeStatus(8,5);" id="d8x5"></td>
-        <td onClick="changeStatus(8,6);" id="d8x6"></td>
-        <td onClick="changeStatus(8,7);" id="d8x7"></td>
-        <td onClick="changeStatus(8,8);" id="d8x8"></td>
-        <td onClick="changeStatus(8,9);" id="d8x9"></td>
-        <td onClick="changeStatus(8,10);" id="d8x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(9);">9</td>
-        <td onClick="changeStatus(9,0);" id="d9x0"></td>
-        <td onClick="changeStatus(9,1);" id="d9x1"></td>
-        <td onClick="changeStatus(9,2);" id="d9x2"></td>
-        <td onClick="changeStatus(9,3);" id="d9x3"></td>
-        <td onClick="changeStatus(9,4);" id="d9x4"></td>
-        <td onClick="changeStatus(9,5);" id="d9x5"></td>
-        <td onClick="changeStatus(9,6);" id="d9x6"></td>
-        <td onClick="changeStatus(9,7);" id="d9x7"></td>
-        <td onClick="changeStatus(9,8);" id="d9x8"></td>
-        <td onClick="changeStatus(9,9);" id="d9x9"></td>
-        <td onClick="changeStatus(9,10);" id="d9x10"></td>
-      </tr>
-      <tr>
-        <td onClick="changeStatusRow(10);">10</td>
-        <td onClick="changeStatus(10,0);" id="d10x0"></td>
-        <td onClick="changeStatus(10,1);" id="d10x1"></td>
-        <td onClick="changeStatus(10,2);" id="d10x2"></td>
-        <td onClick="changeStatus(10,3);" id="d10x3"></td>
-        <td onClick="changeStatus(10,4);" id="d10x4"></td>
-        <td onClick="changeStatus(10,5);" id="d10x5"></td>
-        <td onClick="changeStatus(10,6);" id="d10x6"></td>
-        <td onClick="changeStatus(10,7);" id="d10x7"></td>
-        <td onClick="changeStatus(10,8);" id="d10x8"></td>
-        <td onClick="changeStatus(10,9);" id="d10x9"></td>
-        <td onClick="changeStatus(10,10);" id="d10x10"></td>
-      </tr>
-    </table>
-  </div>
-</body>
-<script src="multi.js">
-</script>
+      <div class="cover">
+        <h1><span id="rattFel" style="font-size: 80%;"></span></h1>
+        <h1><span id="fraga"></span> =
+          <input autofocus id="guessText" type="tel" pattern="[0-9]*" style="font-size: 100%; width: 100px;" value=""
+          onkeydown = "if (event.keyCode == 13) document.getElementById('guessKnapp').click()"
+          onblur="document.getElementById('guessKnapp').click()" />
+          <button id="guessKnapp" onclick="guess()" style="font-size: 100%; visibility: hidden;">OK</button>
+        </h1>
+        <div id="madeby1">
+          <p>Totalt <span id="ratt"></span> r&auml;tt av <span id="totalt"></span>.</p>
+        </div>
+        <div id="madeby2">
+          <span>
+            <table id="tableResultat">
+              <tr><td onClick="changeStatusAll();"></td>
+                <td onClick="changeStatusColumn(0);">0</td>
+                <td onClick="changeStatusColumn(1);">1</td>
+                <td onClick="changeStatusColumn(2);">2</td>
+                <td onClick="changeStatusColumn(3);">3</td>
+                <td onClick="changeStatusColumn(4);">4</td>
+                <td onClick="changeStatusColumn(5);">5</td>
+                <td onClick="changeStatusColumn(6);">6</td>
+                <td onClick="changeStatusColumn(7);">7</td>
+                <td onClick="changeStatusColumn(8);">8</td>
+                <td onClick="changeStatusColumn(9);">9</td>
+                <td onClick="changeStatusColumn(10);">10</td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(0);">0</td>
+                <td onClick="changeStatus(0,0);" id="d0x0"></td>
+                <td onClick="changeStatus(0,1);" id="d0x1"></td>
+                <td onClick="changeStatus(0,2);" id="d0x2"></td>
+                <td onClick="changeStatus(0,3);" id="d0x3"></td>
+                <td onClick="changeStatus(0,4);" id="d0x4"></td>
+                <td onClick="changeStatus(0,5);" id="d0x5"></td>
+                <td onClick="changeStatus(0,6);" id="d0x6"></td>
+                <td onClick="changeStatus(0,7);" id="d0x7"></td>
+                <td onClick="changeStatus(0,8);" id="d0x8"></td>
+                <td onClick="changeStatus(0,9);" id="d0x9"></td>
+                <td onClick="changeStatus(0,10);" id="d0x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(1);">1</td>
+                <td onClick="changeStatus(1,0);" id="d1x0"></td>
+                <td onClick="changeStatus(1,1);" id="d1x1"></td>
+                <td onClick="changeStatus(1,2);" id="d1x2"></td>
+                <td onClick="changeStatus(1,3);" id="d1x3"></td>
+                <td onClick="changeStatus(1,4);" id="d1x4"></td>
+                <td onClick="changeStatus(1,5);" id="d1x5"></td>
+                <td onClick="changeStatus(1,6);" id="d1x6"></td>
+                <td onClick="changeStatus(1,7);" id="d1x7"></td>
+                <td onClick="changeStatus(1,8);" id="d1x8"></td>
+                <td onClick="changeStatus(1,9);" id="d1x9"></td>
+                <td onClick="changeStatus(1,10);" id="d1x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(2);">2</td>
+                <td onClick="changeStatus(2,0);" id="d2x0"></td>
+                <td onClick="changeStatus(2,1);" id="d2x1"></td>
+                <td onClick="changeStatus(2,2);" id="d2x2"></td>
+                <td onClick="changeStatus(2,3);" id="d2x3"></td>
+                <td onClick="changeStatus(2,4);" id="d2x4"></td>
+                <td onClick="changeStatus(2,5);" id="d2x5"></td>
+                <td onClick="changeStatus(2,6);" id="d2x6"></td>
+                <td onClick="changeStatus(2,7);" id="d2x7"></td>
+                <td onClick="changeStatus(2,8);" id="d2x8"></td>
+                <td onClick="changeStatus(2,9);" id="d2x9"></td>
+                <td onClick="changeStatus(2,10);" id="d2x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(3);">3</td>
+                <td onClick="changeStatus(3,0);" id="d3x0"></td>
+                <td onClick="changeStatus(3,1);" id="d3x1"></td>
+                <td onClick="changeStatus(3,2);" id="d3x2"></td>
+                <td onClick="changeStatus(3,3);" id="d3x3"></td>
+                <td onClick="changeStatus(3,4);" id="d3x4"></td>
+                <td onClick="changeStatus(3,5);" id="d3x5"></td>
+                <td onClick="changeStatus(3,6);" id="d3x6"></td>
+                <td onClick="changeStatus(3,7);" id="d3x7"></td>
+                <td onClick="changeStatus(3,8);" id="d3x8"></td>
+                <td onClick="changeStatus(3,9);" id="d3x9"></td>
+                <td onClick="changeStatus(3,10);" id="d3x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(4);">4</td>
+                <td onClick="changeStatus(4,0);" id="d4x0"></td>
+                <td onClick="changeStatus(4,1);" id="d4x1"></td>
+                <td onClick="changeStatus(4,2);" id="d4x2"></td>
+                <td onClick="changeStatus(4,3);" id="d4x3"></td>
+                <td onClick="changeStatus(4,4);" id="d4x4"></td>
+                <td onClick="changeStatus(4,5);" id="d4x5"></td>
+                <td onClick="changeStatus(4,6);" id="d4x6"></td>
+                <td onClick="changeStatus(4,7);" id="d4x7"></td>
+                <td onClick="changeStatus(4,8);" id="d4x8"></td>
+                <td onClick="changeStatus(4,9);" id="d4x9"></td>
+                <td onClick="changeStatus(4,10);" id="d4x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(5);">5</td>
+                <td onClick="changeStatus(5,0);" id="d5x0"></td>
+                <td onClick="changeStatus(5,1);" id="d5x1"></td>
+                <td onClick="changeStatus(5,2);" id="d5x2"></td>
+                <td onClick="changeStatus(5,3);" id="d5x3"></td>
+                <td onClick="changeStatus(5,4);" id="d5x4"></td>
+                <td onClick="changeStatus(5,5);" id="d5x5"></td>
+                <td onClick="changeStatus(5,6);" id="d5x6"></td>
+                <td onClick="changeStatus(5,7);" id="d5x7"></td>
+                <td onClick="changeStatus(5,8);" id="d5x8"></td>
+                <td onClick="changeStatus(5,9);" id="d5x9"></td>
+                <td onClick="changeStatus(5,10);" id="d5x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(6);">6</td>
+                <td onClick="changeStatus(6,0);" id="d6x0"></td>
+                <td onClick="changeStatus(6,1);" id="d6x1"></td>
+                <td onClick="changeStatus(6,2);" id="d6x2"></td>
+                <td onClick="changeStatus(6,3);" id="d6x3"></td>
+                <td onClick="changeStatus(6,4);" id="d6x4"></td>
+                <td onClick="changeStatus(6,5);" id="d6x5"></td>
+                <td onClick="changeStatus(6,6);" id="d6x6"></td>
+                <td onClick="changeStatus(6,7);" id="d6x7"></td>
+                <td onClick="changeStatus(6,8);" id="d6x8"></td>
+                <td onClick="changeStatus(6,9);" id="d6x9"></td>
+                <td onClick="changeStatus(6,10);" id="d6x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(7);">7</td>
+                <td onClick="changeStatus(7,0);" id="d7x0"></td>
+                <td onClick="changeStatus(7,1);" id="d7x1"></td>
+                <td onClick="changeStatus(7,2);" id="d7x2"></td>
+                <td onClick="changeStatus(7,3);" id="d7x3"></td>
+                <td onClick="changeStatus(7,4);" id="d7x4"></td>
+                <td onClick="changeStatus(7,5);" id="d7x5"></td>
+                <td onClick="changeStatus(7,6);" id="d7x6"></td>
+                <td onClick="changeStatus(7,7);" id="d7x7"></td>
+                <td onClick="changeStatus(7,8);" id="d7x8"></td>
+                <td onClick="changeStatus(7,9);" id="d7x9"></td>
+                <td onClick="changeStatus(7,10);" id="d7x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(8);">8</td>
+                <td onClick="changeStatus(8,0);" id="d8x0"></td>
+                <td onClick="changeStatus(8,1);" id="d8x1"></td>
+                <td onClick="changeStatus(8,2);" id="d8x2"></td>
+                <td onClick="changeStatus(8,3);" id="d8x3"></td>
+                <td onClick="changeStatus(8,4);" id="d8x4"></td>
+                <td onClick="changeStatus(8,5);" id="d8x5"></td>
+                <td onClick="changeStatus(8,6);" id="d8x6"></td>
+                <td onClick="changeStatus(8,7);" id="d8x7"></td>
+                <td onClick="changeStatus(8,8);" id="d8x8"></td>
+                <td onClick="changeStatus(8,9);" id="d8x9"></td>
+                <td onClick="changeStatus(8,10);" id="d8x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(9);">9</td>
+                <td onClick="changeStatus(9,0);" id="d9x0"></td>
+                <td onClick="changeStatus(9,1);" id="d9x1"></td>
+                <td onClick="changeStatus(9,2);" id="d9x2"></td>
+                <td onClick="changeStatus(9,3);" id="d9x3"></td>
+                <td onClick="changeStatus(9,4);" id="d9x4"></td>
+                <td onClick="changeStatus(9,5);" id="d9x5"></td>
+                <td onClick="changeStatus(9,6);" id="d9x6"></td>
+                <td onClick="changeStatus(9,7);" id="d9x7"></td>
+                <td onClick="changeStatus(9,8);" id="d9x8"></td>
+                <td onClick="changeStatus(9,9);" id="d9x9"></td>
+                <td onClick="changeStatus(9,10);" id="d9x10"></td>
+              </tr>
+              <tr>
+                <td onClick="changeStatusRow(10);">10</td>
+                <td onClick="changeStatus(10,0);" id="d10x0"></td>
+                <td onClick="changeStatus(10,1);" id="d10x1"></td>
+                <td onClick="changeStatus(10,2);" id="d10x2"></td>
+                <td onClick="changeStatus(10,3);" id="d10x3"></td>
+                <td onClick="changeStatus(10,4);" id="d10x4"></td>
+                <td onClick="changeStatus(10,5);" id="d10x5"></td>
+                <td onClick="changeStatus(10,6);" id="d10x6"></td>
+                <td onClick="changeStatus(10,7);" id="d10x7"></td>
+                <td onClick="changeStatus(10,8);" id="d10x8"></td>
+                <td onClick="changeStatus(10,9);" id="d10x9"></td>
+                <td onClick="changeStatus(10,10);" id="d10x10"></td>
+              </tr>
+            </table>
+
+          </span>
+        </div>
+      </div>
+
+    </div>
+    <script src="multi.js">
+    </script>
+  </body>
 </html>

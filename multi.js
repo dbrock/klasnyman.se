@@ -13,6 +13,10 @@ let multiplikator =  Math.floor((Math.random() * 11));
 let multiplikand =  Math.floor((Math.random() * 11));
 
 newQuestion();
+document.getElementById("tableResultat").style.visibility = "hidden";
+document.getElementById("rattFel").innerHTML = `Hej!`;
+
+
 
 // Växlar om tabllen visas eller ej
 function toggleTable() {
@@ -63,11 +67,13 @@ function guess()
   if (guessText == "") {return;}
 
   if (guessText == multiplikator * multiplikand) {
-    msgSvar = 'R&auml;tt svar!'; // Rätt svar
+    const alternativ = [`Korrekt!`,`R&auml;tt!`,`Snyggt!`,`Utm&auml;rkt!`,`Exakt!`,`Bra!`,`Forts&auml;tt s&aring; h&auml;r!`]
+    msgSvar = alternativ[Math.floor((Math.random() * 7))];
+    //msgSvar = `Korrekt.`; // Rätt svar
     antalRatt++;
     ratt[multiplikator][multiplikand]=ratt[multiplikator][multiplikand] + 1;
   } else {
-    msgSvar = "Nope."; // Fel svar
+    msgSvar = `Inte riktigt. &nbsp; ${multiplikator} &middot; ${multiplikand} = ${multiplikator * multiplikand}` ; // Fel svar
     antalFel++;
     fel[multiplikator][multiplikand]=fel[multiplikator][multiplikand] + 1;
   }
@@ -208,6 +214,7 @@ function statusSvaraHornet() {
       changeStatus(i,j,ENABLED);
     }
   }
+  newQuestion();
   updateStatus();
 }
 
