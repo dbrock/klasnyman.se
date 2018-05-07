@@ -227,11 +227,6 @@ function updateStatus() {
       }
     }
   }
-  document.getElementById("fraga").innerHTML = `${multiplikator} * ${multiplikand}`;
-  document.getElementById("gissningText").value = "";
-  document.getElementById("rattFel").innerHTML = `${msgSvar}`;
-  document.getElementById("ratt").innerHTML = `${antalRatt}`;
-  document.getElementById("totalt").innerHTML = `${antalRatt+antalFel}`;
 
 }
 
