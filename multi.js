@@ -6,33 +6,43 @@ let ratt = matrix(11,11,0);
 let fel = matrix(11,11,0);
 let status = matrix(11,11,0);
 let msgSvar = ``;
+const ENABLED = 0;
+const DISABLED = 1;
 
 let multiplikator =  Math.floor((Math.random() * 11));
 let multiplikand =  Math.floor((Math.random() * 11));
 
-nyFraga();
+newQuestion();
 
-
+// Växlar om tabllen visas eller ej
 function toggleTable() {
   if (document.getElementById("tableResultat").style.visibility == "hidden") {
     document.getElementById("tableResultat").style.visibility = "visible";
   } else {
     document.getElementById("tableResultat").style.visibility = "hidden";
   }
+  document.getElementById("guessText").focus();
+
 }
-function nyFraga() {
-  while (true) {
+
+// Slumpar en ny fråga och uppdaterar textfält.
+function newQuestion() {
+  var i = 0;
+  while (i < 300) {
     multiplikator = Math.floor((Math.random() * 11));
     multiplikand = Math.floor((Math.random() * 11));
-    if (getStatus(multiplikator, multiplikand) == 0) { break; }
+    if (getStatus(multiplikator, multiplikand) == ENABLED) { break; }
+    i++;
   }
 
   document.getElementById("fraga").innerHTML = `${multiplikator} &middot; ${multiplikand}`;
-  document.getElementById("gissningText").value = "";
+  document.getElementById("guessText").value = "";
   document.getElementById("rattFel").innerHTML = `${msgSvar}`;
   document.getElementById("ratt").innerHTML = `${antalRatt}`;
   document.getElementById("totalt").innerHTML = `${antalRatt+antalFel}`;
 }
+
+// Skapar en 2D-matris
 function matrix (numrows, numcols, initial) {
     var arr = [];
     for (var i = 0; i < numrows; ++i) {
@@ -45,14 +55,14 @@ function matrix (numrows, numcols, initial) {
     return arr;
 }
 
-
-function gissning()
+// testar om gissning stämmer med frågan, kallar newQuestion och updateScore
+function guess()
 {
-  var gissningText = document.getElementById("gissningText").value;
+  var guessText = document.getElementById("guessText").value;
 
-  if (gissningText == "") {return;}
+  if (guessText == "") {return;}
 
-  if (gissningText == multiplikator * multiplikand) {
+  if (guessText == multiplikator * multiplikand) {
     msgSvar = 'R&auml;tt svar!'; // Rätt svar
     antalRatt++;
     ratt[multiplikator][multiplikand]=ratt[multiplikator][multiplikand] + 1;
@@ -62,174 +72,207 @@ function gissning()
     fel[multiplikator][multiplikand]=fel[multiplikator][multiplikand] + 1;
   }
 
-  nyFraga();
+  newQuestion();
   updateScore();
-  document.getElementById("gissningText").focus();
+  document.getElementById("guessText").focus();
 
 }
 
+//ändrar status om ett visst par ska inkluderas eller ej.
 function changeStatus(a,b,newStatus) {
-  status[a][b]=newStatus;
-  if (newStatus == 1 && multiplikator == a && multiplikand == b) {
-    nyFraga();
+  if (arguments.length == 3) {
+    status[a][b]=newStatus;
+    if (newStatus == DISABLED && multiplikator == a && multiplikand == b) {
+      newQuestion();
+    }
+  } else {
+    status[a][b]=status[a][b]+1;
+    if (status[a][b] > 1) {
+      status[a][b] = 0;
+    }
+    if (status[a][b] == DISABLED && multiplikator == a && multiplikand == b) {
+      newQuestion();
+    }
   }
-
-  updateStatus();
+  updateStatus(a,b);
 }
 
+
+//Status lätta hörnet
 function statusEasy() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      changeStatus(i,j,1);
+      changeStatus(i,j,DISABLED);
     }
   }
   for (var j = 0; j<6;++j) {
     for (var i = 0; i<6;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
+  updateStatus();
 }
 function statusLevel1() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      changeStatus(i,j,1);
+      changeStatus(i,j,DISABLED);
     }
   }
   for (var j = 0; j<6;++j) {
     for (var i = 0; i<6;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
   for (var j = 6; j<11;++j) {
     for (var i = 0; i<3;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
   for (var j = 0; j<3;++j) {
     for (var i = 3; i<11;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
   for (var j = 3; j<11;++j) {
-      changeStatus(10,j,0);
-      changeStatus(j,10,0);
+      changeStatus(10,j,ENABLED);
+      changeStatus(j,10,ENABLED);
   }
+  updateStatus();
 }
+
 function statusMedium() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
   for (var j = 6; j<11;++j) {
     for (var i = 6; i<11;++i) {
-      changeStatus(i,j,1);
+      changeStatus(i,j,DISABLED);
     }
   }
+  updateStatus();
 
 }
+
 function statusMediumOnly() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
   for (var j = 6; j<11;++j) {
     for (var i = 6; i<11;++i) {
-      changeStatus(i,j,1);
+      changeStatus(i,j,DISABLED);
     }
   }
   for (var j = 0; j<6;++j) {
     for (var i = 0; i<6;++i) {
-      changeStatus(i,j,1);
+      changeStatus(i,j,DISABLED);
     }
   }
+  updateStatus();
 }
+
 function statusHard() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
+  updateStatus();
 }
+
 function statusHardOnly() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      changeStatus(i,j,1);
+      changeStatus(i,j,DISABLED);
     }
   }
   for (var j = 6; j<11;++j) {
     for (var i = 6; i<11;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
+  updateStatus();
 }
+
 function statusSvaraHornet() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      changeStatus(i,j,1);
+      changeStatus(i,j,DISABLED);
     }
   }
   for (var j = 6; j<10;++j) {
     for (var i = 6; i<10;++i) {
-      changeStatus(i,j,0);
+      changeStatus(i,j,ENABLED);
     }
   }
+  updateStatus();
 }
+
 function statusRemoveGreen() {
   for (var j = 0; j < 11; j++) {
     for (var i = 0; i < 11; i++) {
       if (fel[j][i] == 0 && ratt[j][i]>0) {
-        changeStatus(j,i,1) ;
+        changeStatus(j,i,DISABLED) ;
       }
     }
   }
+  updateStatus();
 }
-function toggleStatus(a,b) {
-  status[a][b]=status[a][b]+1;
-  if (status[a][b] > 1) {
-    status[a][b] = 0;
-  }
-  if (status[a][b] == 1 && multiplikator == a && multiplikand == b) {
-    nyFraga();
+
+function changeStatusRow(a) {
+  for (var i = 0; i<11;++i) {
+    changeStatus(a,i);
   }
   updateStatus();
 }
-function toggleStatusRow(a) {
+
+function changeStatusColumn(b) {
   for (var i = 0; i<11;++i) {
-    toggleStatus(a,i);
+    changeStatus(i,b);
   }
+  updateStatus();
 }
-function toggleStatusColumn(b) {
-  for (var i = 0; i<11;++i) {
-    toggleStatus(i,b);
-  }
-}
-function toggleStatusAll() {
+
+function changeStatusAll() {
   for (var j = 0; j<11;++j) {
     for (var i = 0; i<11;++i) {
-      toggleStatus(i,j);
+      changeStatus(i,j);
     }
   }
+  updateStatus();
 }
 
 function getStatus(a,b) {
   return status[a][b];
 }
 
-function updateStatus() {
-  for (var j = 0; j < 11; j++) {
-    for (var i = 0; i < 11; i++) {
-      if (getStatus(j,i) == 0) {
-        document.getElementById("d"+j+"x"+i).style.backgroundColor = "white";
-      } else {
-        document.getElementById("d"+j+"x"+i).style.backgroundColor = "lightgrey";
+// Uppdaterar hur tabellen med resultat ser ut
+function updateStatus(j,i) {
+  if (arguments.length == 0) {
+    for (var j = 0; j < 11; j++) {
+      for (var i = 0; i < 11; i++) {
+        if (status[j][i] == ENABLED) {
+          document.getElementById("d"+j+"x"+i).style.backgroundColor = "white";
+        } else {
+          document.getElementById("d"+j+"x"+i).style.backgroundColor = "lightgrey";
+        }
       }
     }
+  } else {
+    if (status[j][i] == ENABLED) {
+      document.getElementById("d"+j+"x"+i).style.backgroundColor = "white";
+    } else {
+      document.getElementById("d"+j+"x"+i).style.backgroundColor = "lightgrey";
+    }
   }
-
+  document.getElementById("guessText").focus();
 }
 
+
+// uppdaterar innehållet i tabllen (poängräkningen)
 function updateScore() {
   for (var j = 0; j < 11; j++) {
     for (var i = 0; i < 11; i++) {
@@ -238,14 +281,18 @@ function updateScore() {
       } else {
         document.getElementById("d"+j+"x"+i).innerHTML = ratt[j][i] + " av " + (ratt[j][i] + fel[j][i]);
         if (fel[j][i] == 0) {
-          document.getElementById("d"+j+"x"+i).style.backgroundColor = "lightgreen";
+          document.getElementById("d"+j+"x"+i).style.color = "darkgreen";
         } else if (ratt[j][i] == 0) {
-          document.getElementById("d"+j+"x"+i).style.backgroundColor = "red";
+          document.getElementById("d"+j+"x"+i).style.color = "red";
+        } else {
+          document.getElementById("d"+j+"x"+i).style.color = "black";
         }
       }
     }
   }
 }
+
+//Nollställer poängräkningen och kör updateScore()
 function resetScore() {
   for (var j = 0; j < 11; j++) {
     for (var i = 0; i < 11; i++) {
@@ -256,5 +303,4 @@ function resetScore() {
   antalFel = 0;
   antalRatt = 0;
   updateScore();
-  updateStatus();
 }

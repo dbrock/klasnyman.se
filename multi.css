@@ -1,0 +1,13 @@
+body {
+    background-color: white;
+    text-align: center;
+}
+
+h1 {
+    color: navy;
+    margin-left: 20px;
+}
+
+input[type=number] {
+    width: 30px;
+}
