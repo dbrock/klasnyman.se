@@ -1,10 +1,11 @@
 
 <!DOCTYPE HTML>
+
 <html>
   <head>
-<!--    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
--->
-    <link rel="stylesheet" type="text/css" href="multi.css">
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="multi.css" />
+    <title>Multi v0.2</title>
   </head>
 
   <style>
@@ -21,21 +22,29 @@
 
   <body style="text-align: center;">
 
-
     <div class="container">
 
       <header>
-        <h2><a href="#"> Multi v0.1</a></h2>
+        <h2><a href="#"> Multi v0.2</a></h2>
         <nav>
           <ul>
             <li>
-              <a href="#" title="Niv1" onClick="statusLevel1();">Niv&aring 1</a>
+              <a href="#" onClick="statusLevel1();">Niv&aring; 1</a>
             </li>
             <li>
-              <a href="#" title="Medium" onClick="statusMedium();">Medium</a>
+              <a href="#" onClick="statusMedium();">Niv&aring; 2</a>
             </li>
             <li>
-              <a href="#" title="SvaraHornet" onClick="statusSvaraHornet();">Sv&aring;ra h&ouml;rnet</a>
+              <a href="#" onClick="statusSvaraHornet();">Sv&aring;ra h&ouml;rnet</a>
+            </li>
+            <li>
+              <a href="#" onClick="questionModeTimer(10);">Utmaning: 10s</a>
+            </li>
+            <li>
+              <a href="#" onClick="questionModeNr(5);">Utmaning: 5st</a>
+            </li>
+            <li>
+              <a href="#" onClick="questionModeForever();">Sandbox</a>
             </li>
             <li>
               <a class="btn" href="#" onClick="toggleTable();">Visa/d&ouml;lj resultattabell</a>
@@ -46,15 +55,12 @@
 
       <div class="cover">
         <h1><span id="rattFel" style="font-size: 80%;"></span></h1>
-        <h1><span id="fraga"></span> =
+        <h1><span id="fraga"></span>
           <input autofocus id="guessText" type="tel" pattern="[0-9]*" style="font-size: 100%; width: 100px; text-align: center;" value=""
-          onkeydown = "if (event.keyCode == 13) document.getElementById('guessKnapp').click()"
-          onblur="document.getElementById('guessKnapp').click()" />
-          <button id="guessKnapp" onclick="guess()" style="font-size: 100%; visibility: hidden;">OK</button>
+          onkeydown = "if (event.keyCode == 13) guess()"
+          onkeyup="textChange()"
+          onblur="guess()" />
         </h1>
-        <div id="madeby2">
-          <p>Totalt <span id="ratt"></span> r&auml;tt av <span id="totalt"></span>.</p>
-        </div>
         <div id="madeby1">
           <span>
             <table id="tableResultat">
@@ -228,6 +234,15 @@
             </table>
 
           </span>
+        </div>
+        <div id="madeby2">
+          <p>
+            <span id="question"></span><br />
+            <span id="time"></span><br />
+            <span id="rattTotalt"></span><br />
+            <a href="#" onClick="resetScore();">Reset</a>
+
+          </p>
         </div>
       </div>
 

@@ -178,6 +178,7 @@ input[type="search"] {
   right: 0;
   padding: 25px 100px;
   color: #fff;
+  text-align:right;
 }
 
 @media all and (max-width:800px) {
