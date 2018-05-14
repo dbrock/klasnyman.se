@@ -1,17 +1,12 @@
 // Multi.js
 
 // Todo:
-// OK, Time out, wrong. 5/3/1
 // Nice style table. Red, yellow, green?
 // Export / Send result by mail.
 // More options
-// Nr of questions - mode
-// Time - mode
 // Tips: utifrån vilket tal som missas så visas relevanta tips på hur
 //       det går att tänka på just detta tal.
 
-// Bugs:
-// Table display on wrong ansers after cutoff time.
 
 
 "use strict";
@@ -45,7 +40,7 @@ const ENABLED = 0;
 const DISABLED = 1;
 
 let countdownTimeRunning = ENABLED;
-var countdownTime = 0;
+let countdownTime = 0;
 
 let multiplikator =  Math.floor((Math.random() * 11));
 let multiplikand =  Math.floor((Math.random() * 11));
@@ -68,7 +63,6 @@ document.getElementById("rattFel").innerHTML = `Hej! Denna sida anv&auml;nder co
 
 
 function questionModeNr(nrQuestions) {
-  document.getElementById("guessText").focus();
   if (mode == MODE_NR) {
     modeCurrentNr = nrQuestions;
     modeRattNr = 0;
@@ -81,6 +75,8 @@ function questionModeNr(nrQuestions) {
   }
   document.querySelector("#question").textContent = "Utmaning: " + modeCurrentNr + "/" + modeTotalNr;
   document.getElementById("rattFel").innerHTML = "Utmaning: " + nrQuestions + " fr&aring;gor";
+  document.getElementById("guessText").focus();
+
 }
 
 function questionModeForever() {
@@ -88,7 +84,6 @@ function questionModeForever() {
   newQuestion();
   document.getElementById("rattFel").innerHTML = "Sandbox"
   document.getElementById("guessText").focus();
-
 }
 
 function questionModeTimer(duration) {
@@ -101,8 +96,8 @@ function questionModeTimer(duration) {
     mode = MODE_TIMER;
     modeCurrentTime = duration;
     newQuestion();
-    var textOut
-    var timerInterval = setInterval(function ()
+    let textOut
+    let timerInterval = setInterval(function ()
     {
         textOut = modeCurrentTime < 10 ? "0" + modeCurrentTime : modeCurrentTime;
         document.querySelector("#question").textContent = "Utmaning: " + textOut + " sekunder";
@@ -110,7 +105,7 @@ function questionModeTimer(duration) {
         if (--modeCurrentTime < 0) {
           mode = MODE_DISABLED;
           modeCurrentTime = 0;
-          document.getElementById("rattFel").innerHTML = 'Utmaningstiden &auml;r slut! Du hade ' + modeRattTime + " r&auml;tt av " + modeQuestionsTime;
+          document.getElementById("rattFel").innerHTML = 'Utmaningstiden &auml;r slut! Du hade ' + modeRattTime + " r&auml;tt av " + modeQuestionsTime + ".";
           document.getElementById("fraga").style.visibility = "hidden";
           document.getElementById("guessText").style.visibility = "hidden";
           clearInterval(timerInterval);
@@ -125,7 +120,7 @@ function questionModeTimer(duration) {
 function countdownTimer(duration, display) {
     countdownTime = duration;
     countdownTimeRunning = ENABLED;
-    var seconds;
+    let seconds;
     setInterval(function () {
         seconds = countdownTime;
 
@@ -136,7 +131,7 @@ function countdownTimer(duration, display) {
         if (--countdownTime < 0) {
           // Tidfel
           if (countdownTimeRunning == ENABLED) {
-            tidfel[multiplikator][multiplikand] = tidfel[multiplikator][multiplikand] + 1;
+//            tidfel[multiplikator][multiplikand] = tidfel[multiplikator][multiplikand] + 1;
             countdownTime = 0; //duration
             countdownTimeRunning = DISABLED;
             document.getElementById("guessText").style.backgroundColor = "LemonChiffon";
@@ -150,18 +145,18 @@ function countdownTimer(duration, display) {
 
 
 function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
+    let d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
+    let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
         }
@@ -173,7 +168,6 @@ function getCookie(cname) {
 }
 
 window.onload = function () {
-    var display = document.querySelector('#time');
     countdownTimer(countdown, document.querySelector('#time'));
 };
 
@@ -195,7 +189,7 @@ function newQuestion() {
     document.getElementById("fraga").style.visibility = "visible";
     document.getElementById("guessText").style.visibility = "visible";
 
-    var i = 0;
+    let i = 0;
     while (i < 300) {
       multiplikator = Math.floor((Math.random() * 11));
       multiplikand = Math.floor((Math.random() * 11));
@@ -230,10 +224,10 @@ function newQuestion() {
 
 // Skapar en 2D-matris
 function matrix (numrows, numcols, initial) {
-    var arr = [];
-    for (var i = 0; i < numrows; ++i) {
-        var columns = [];
-        for (var j = 0; j < numcols; ++j) {
+    let arr = [];
+    for (let i = 0; i < numrows; ++i) {
+        let columns = [];
+        for (let j = 0; j < numcols; ++j) {
             columns[j] = initial;
         }
         arr[i] = columns;
@@ -242,7 +236,7 @@ function matrix (numrows, numcols, initial) {
 }
 
 function textChange() {
-  var guessText = document.getElementById("guessText").value;
+  let guessText = document.getElementById("guessText").value;
   if (guessText.length >= String(multiplikator*multiplikand).length) {
     guess();
   }
@@ -251,7 +245,7 @@ function textChange() {
 // testar om gissning stämmer med frågan, kallar newQuestion och updateScore
 function guess()
 {
-  var guessText = document.getElementById("guessText").value;
+  let guessText = document.getElementById("guessText").value;
 
   if (guessText == "") {
     return;
@@ -263,15 +257,16 @@ function guess()
       const alternativRatt = [`Korrekt!`,`R&auml;tt!`,`Snyggt!`,`Utm&auml;rkt!`,`Exakt!`,`Bra!`,`Forts&auml;tt s&aring; h&auml;r!`]
       msgSvar = alternativRatt[Math.floor((Math.random() * alternativRatt.length))];
       document.getElementById("rattFel").style.color = "Lavender"
+      ratt[multiplikator][multiplikand]=ratt[multiplikator][multiplikand] + 1;
     } else {
       const alternativTid = [`R&auml;tt men inte s&aring; snabbt`,`Lite snabbare kan du`]
       msgSvar = alternativTid[Math.floor((Math.random() * alternativTid.length))];
       document.getElementById("rattFel").style.color = "LemonChiffon"
+      tidfel[multiplikator][multiplikand]=tidfel[multiplikator][multiplikand] + 1;
     }
     antalRatt++;
     if (mode == MODE_TIMER) { modeRattTime++ };
     if (mode == MODE_NR) { modeRattNr++ };
-    ratt[multiplikator][multiplikand]=ratt[multiplikator][multiplikand] + 1;
   } else {
     msgSvar = `Inte riktigt, &nbsp; ${multiplikator} &middot; ${multiplikand} = ${multiplikator * multiplikand}` ; // Fel svar
     document.getElementById("rattFel").style.color = "MistyRose"
@@ -286,7 +281,11 @@ function guess()
         mode = MODE_DISABLED;
         modeCurrentNr = modeTotalNr;
         document.querySelector("#question").textContent = "Utmaning: " + modeCurrentNr + "/" + modeTotalNr;
-        document.getElementById("rattFel").innerHTML = 'Det var sista fr&aring;gan! Du hade ' + modeRattNr + " r&auml;tt av " + modeTotalNr;
+        document.getElementById("rattFel").innerHTML = 'Det var sista fr&aring;gan! Du hade ' + modeRattNr + " r&auml;tt av " + modeTotalNr + ".";
+        document.getElementById("fraga").style.visibility = "hidden";
+        document.getElementById("guessText").style.visibility = "hidden";
+        modeRattNr = 0;
+        modeTotalNr = 0;
     } else {
       document.querySelector("#question").textContent = "Utmaning: " + modeCurrentNr + "/" + modeTotalNr;
       newQuestion();
@@ -322,40 +321,40 @@ function changeStatus(a,b,newStatus) {
 
 //Status lätta hörnet
 function statusEasy() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j,DISABLED);
     }
   }
-  for (var j = 0; j<6;++j) {
-    for (var i = 0; i<6;++i) {
+  for (let j = 0; j<6;++j) {
+    for (let i = 0; i<6;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
   updateStatus();
 }
 function statusLevel1() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j,DISABLED);
     }
   }
-  for (var j = 0; j<6;++j) {
-    for (var i = 0; i<6;++i) {
+  for (let j = 0; j<6;++j) {
+    for (let i = 0; i<6;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
-  for (var j = 6; j<11;++j) {
-    for (var i = 0; i<3;++i) {
+  for (let j = 6; j<11;++j) {
+    for (let i = 0; i<3;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
-  for (var j = 0; j<3;++j) {
-    for (var i = 3; i<11;++i) {
+  for (let j = 0; j<3;++j) {
+    for (let i = 3; i<11;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
-  for (var j = 3; j<11;++j) {
+  for (let j = 3; j<11;++j) {
       changeStatus(10,j,ENABLED);
       changeStatus(j,10,ENABLED);
   }
@@ -363,13 +362,13 @@ function statusLevel1() {
 }
 
 function statusMedium() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
-  for (var j = 6; j<11;++j) {
-    for (var i = 6; i<11;++i) {
+  for (let j = 6; j<11;++j) {
+    for (let i = 6; i<11;++i) {
       changeStatus(i,j,DISABLED);
     }
   }
@@ -378,18 +377,18 @@ function statusMedium() {
 }
 
 function statusMediumOnly() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
-  for (var j = 6; j<11;++j) {
-    for (var i = 6; i<11;++i) {
+  for (let j = 6; j<11;++j) {
+    for (let i = 6; i<11;++i) {
       changeStatus(i,j,DISABLED);
     }
   }
-  for (var j = 0; j<6;++j) {
-    for (var i = 0; i<6;++i) {
+  for (let j = 0; j<6;++j) {
+    for (let i = 0; i<6;++i) {
       changeStatus(i,j,DISABLED);
     }
   }
@@ -397,8 +396,8 @@ function statusMediumOnly() {
 }
 
 function statusHard() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
@@ -406,13 +405,13 @@ function statusHard() {
 }
 
 function statusHardOnly() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j,DISABLED);
     }
   }
-  for (var j = 6; j<11;++j) {
-    for (var i = 6; i<11;++i) {
+  for (let j = 6; j<11;++j) {
+    for (let i = 6; i<11;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
@@ -420,13 +419,13 @@ function statusHardOnly() {
 }
 
 function statusSvaraHornet() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j,DISABLED);
     }
   }
-  for (var j = 6; j<10;++j) {
-    for (var i = 6; i<10;++i) {
+  for (let j = 6; j<10;++j) {
+    for (let i = 6; i<10;++i) {
       changeStatus(i,j,ENABLED);
     }
   }
@@ -435,8 +434,8 @@ function statusSvaraHornet() {
 }
 
 function statusRemoveGreen() {
-  for (var j = 0; j < 11; j++) {
-    for (var i = 0; i < 11; i++) {
+  for (let j = 0; j < 11; j++) {
+    for (let i = 0; i < 11; i++) {
       if (fel[j][i] == 0 && ratt[j][i]>0) {
         changeStatus(j,i,DISABLED) ;
       }
@@ -446,22 +445,22 @@ function statusRemoveGreen() {
 }
 
 function changeStatusRow(a) {
-  for (var i = 0; i<11;++i) {
+  for (let i = 0; i<11;++i) {
     changeStatus(a,i);
   }
   updateStatus();
 }
 
 function changeStatusColumn(b) {
-  for (var i = 0; i<11;++i) {
+  for (let i = 0; i<11;++i) {
     changeStatus(i,b);
   }
   updateStatus();
 }
 
 function changeStatusAll() {
-  for (var j = 0; j<11;++j) {
-    for (var i = 0; i<11;++i) {
+  for (let j = 0; j<11;++j) {
+    for (let i = 0; i<11;++i) {
       changeStatus(i,j);
     }
   }
@@ -475,8 +474,8 @@ function getStatus(a,b) {
 // Uppdaterar hur tabellen med resultat ser ut
 function updateStatus(j,i) {
   if (arguments.length == 0) {
-    for (var j = 0; j < 11; j++) {
-      for (var i = 0; i < 11; i++) {
+    for (let j = 0; j < 11; j++) {
+      for (let i = 0; i < 11; i++) {
         if (status[j][i] == ENABLED) {
           document.getElementById("d"+j+"x"+i).style.backgroundColor = "white";
         } else {
@@ -497,13 +496,13 @@ function updateStatus(j,i) {
 
 // uppdaterar innehållet i tabllen (poängräkningen)
 function updateScore() {
-  for (var j = 0; j < 11; j++) {
-    for (var i = 0; i < 11; i++) {
-      if (ratt[j][i] + fel[j][i] == 0) {
+  for (let j = 0; j < 11; j++) {
+    for (let i = 0; i < 11; i++) {
+      if (ratt[j][i] + tidfel[j][i] + fel[j][i] == 0) {
         document.getElementById("d"+j+"x"+i).innerHTML = "";
       } else {
         document.getElementById("d"+j+"x"+i).innerHTML =
-        (ratt[j][i] - tidfel[j][i]) + "/" + tidfel[j][i] + "/" + fel[j][i];
+        ratt[j][i] + "/" + tidfel[j][i] + "/" + fel[j][i];
         if (fel[j][i] == 0) {
           document.getElementById("d"+j+"x"+i).style.color = "darkgreen";
         } else if (ratt[j][i] == 0) {
@@ -518,9 +517,10 @@ function updateScore() {
 
 //Nollställer poängräkningen och kör updateScore()
 function resetScore() {
-  for (var j = 0; j < 11; j++) {
-    for (var i = 0; i < 11; i++) {
+  for (let j = 0; j < 11; j++) {
+    for (let i = 0; i < 11; i++) {
       fel[i][j] = 0;
+      tidfel[i][j] = 0;
       ratt[i][j] = 0;
     }
   }
@@ -529,4 +529,6 @@ function resetScore() {
   updateStatus();
   updateScore();
   document.getElementById("rattTotalt").innerHTML = "";
+  document.getElementById("guessText").focus();
+
 }
