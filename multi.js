@@ -7,6 +7,11 @@
 // Tips: utifrån vilket tal som missas så visas relevanta tips på hur
 //       det går att tänka på just detta tal.
 
+// Skriva om koden till läslig.
+// Nuvarande fråga som objekt?
+
+//objekt?
+
 
 
 "use strict";
@@ -259,7 +264,7 @@ function guess()
       document.getElementById("rattFel").style.color = "Lavender"
       ratt[multiplikator][multiplikand]=ratt[multiplikator][multiplikand] + 1;
     } else {
-      const alternativTid = [`R&auml;tt men inte s&aring; snabbt`,`Lite snabbare kan du`]
+      const alternativTid = [`Korrekt`,`R&auml;tt`,`Snyggt`,`Utm&auml;rkt`,`Exakt`,`Bra`,`Forts&auml;tt s&aring; h&auml;r`]
       msgSvar = alternativTid[Math.floor((Math.random() * alternativTid.length))];
       document.getElementById("rattFel").style.color = "LemonChiffon"
       tidfel[multiplikator][multiplikand]=tidfel[multiplikator][multiplikand] + 1;
@@ -438,7 +443,8 @@ function statusRemoveGreen() {
     for (let i = 0; i < 11; i++) {
       if (fel[j][i] == 0 && ratt[j][i]>0) {
         changeStatus(j,i,DISABLED) ;
-      }
+      } else if ((ratt[j][i]+tidfel[j][i])>(fel[j][i] + 2))
+      changeStatus(j,i,DISABLED) ;
     }
   }
   updateStatus();

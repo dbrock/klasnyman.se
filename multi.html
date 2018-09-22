@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="multi.css" />
-    <title>Multi v0.2</title>
+    <title>Multi v0.3</title>
   </head>
 
   <style>
@@ -25,29 +25,32 @@
     <div class="container">
 
       <header>
-        <h2><a href="#"> Multi v0.2</a></h2>
+        <h2><a href="#"> Multi v0.3</a></h2>
         <nav>
           <ul>
             <li>
-              <a href="#" onClick="statusLevel1();">Niv&aring; 1</a>
+              <a href="#" onClick="statusMedium();">Niv&aring; 1</a>
             </li>
             <li>
-              <a href="#" onClick="statusMedium();">Niv&aring; 2</a>
+              <a href="#" onClick="statusHard();">Niv&aring; 2</a>
             </li>
             <li>
-              <a href="#" onClick="statusSvaraHornet();">Sv&aring;ra h&ouml;rnet</a>
+              <a href="#" onClick="statusSvaraHornet();">Niv&aring; 3</a>
             </li>
             <li>
-              <a href="#" onClick="questionModeTimer(10);">Utmaning: 10s</a>
+              <a href="#" onClick="statusRemoveGreen();">Niv&aring; av resultat</a>
             </li>
             <li>
-              <a href="#" onClick="questionModeNr(5);">Utmaning: 5st</a>
+              <a href="#" onClick="questionModeTimer(300);">Utmaning: 5min</a>
             </li>
             <li>
-              <a href="#" onClick="questionModeForever();">Sandbox</a>
+              <a href="#" onClick="questionModeNr(50);">Utmaning: 50st</a>
             </li>
             <li>
-              <a class="btn" href="#" onClick="toggleTable();">Visa/d&ouml;lj resultattabell</a>
+              <a href="#" onClick="questionModeForever();">Ingen utmaning</a>
+            </li>
+            <li>
+              <a class="btn" href="#" onClick="toggleTable();">Visa/d&ouml;lj&nbsp;resultattabell</a>
             </li>
           </ul>
         </nav>
@@ -238,10 +241,9 @@
         <div id="madeby2">
           <p>
             <span id="question"></span><br />
-            <span id="time"></span><br />
+            <span id="time" style="opacity: 0"></span><br />
             <span id="rattTotalt"></span><br />
-            <a href="#" onClick="resetScore();">Reset</a>
-
+            <a href="#" onClick="resetScore();">&Aring;terst&auml;ll allt</a>
           </p>
         </div>
       </div>
