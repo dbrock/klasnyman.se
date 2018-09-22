@@ -64,7 +64,7 @@ if (document.cookie != "") {
 
 newQuestion();
 document.getElementById("tableResultat").style.visibility = "hidden";
-document.getElementById("rattFel").innerHTML = `Hej! Denna sida anv&auml;nder cookies.`;
+document.getElementById("rattFel").innerHTML = `V&auml;lkommen!`;
 
 
 function questionModeNr(nrQuestions) {
@@ -87,7 +87,7 @@ function questionModeNr(nrQuestions) {
 function questionModeForever() {
   mode = MODE_FOREVER;
   newQuestion();
-  document.getElementById("rattFel").innerHTML = "Sandbox"
+  document.getElementById("rattFel").innerHTML = ""
   document.getElementById("guessText").focus();
 }
 
