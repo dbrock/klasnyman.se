@@ -51,14 +51,16 @@ let multiplikator =  Math.floor((Math.random() * 11));
 let multiplikand =  Math.floor((Math.random() * 11));
 
 if (document.cookie != "") {
-  antalRatt = JSON.parse(getCookie("antalRatt"));
-  antalFel = JSON.parse(getCookie("antalFel"));
-  ratt = JSON.parse(getCookie("ratt"));
-  fel = JSON.parse(getCookie("fel"));
-  tidfel = JSON.parse(getCookie("tidfel"));
-  status = JSON.parse(getCookie("status"));
-  updateScore();
-  updateStatus();
+  if (getCookie("antalRatt") > 0) {
+    antalRatt = JSON.parse(getCookie("antalRatt"));
+    antalFel = JSON.parse(getCookie("antalFel"));
+    ratt = JSON.parse(getCookie("ratt"));
+    fel = JSON.parse(getCookie("fel"));
+    tidfel = JSON.parse(getCookie("tidfel"));
+    status = JSON.parse(getCookie("status"));
+    updateScore();
+    updateStatus();
+  }
 }
 
 let toggleMoveOn = 0;
