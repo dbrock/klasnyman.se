@@ -70,11 +70,12 @@ if (getQueryStringValue("mo") == 1) {
 }
 
 newQuestion();
-document.getElementById("time").style.visibility = "hidden";
+document.getElementById("time").style.opacity = "0";
 document.getElementById("tableResultat").style.visibility = "hidden";
 document.getElementById("rattFel").innerHTML = `V&auml;lkommen!`;
 document.getElementById("toggleMoveOnText").innerHTML = `Inst&auml;llning: G&aring; vidare`;
 document.getElementById("toggleMoveOnText").style.visibility = "hidden";
+document.getElementById("guessText").focus();
 
 function getQueryStringValue (key) {
   return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -88,7 +89,7 @@ function toggleMoveOnF() {
     toggleMoveOn = 0;
     document.getElementById("toggleMoveOnText").innerHTML = `Inst&auml;llning: G&aring; vidare`;
   }
-
+  document.getElementById("guessText").focus();
 }
 
 function questionModeNr(nrQuestions) {
