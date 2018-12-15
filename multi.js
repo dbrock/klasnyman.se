@@ -70,6 +70,7 @@ if (getQueryStringValue("mo") == 1) {
 }
 
 newQuestion();
+document.getElementById("time").style.visibility = "hidden";
 document.getElementById("tableResultat").style.visibility = "hidden";
 document.getElementById("rattFel").innerHTML = `V&auml;lkommen!`;
 document.getElementById("toggleMoveOnText").innerHTML = `Inst&auml;llning: G&aring; vidare`;

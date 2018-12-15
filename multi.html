@@ -3,12 +3,13 @@
 
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="multi.css" />
     <title>Multi v0.3</title>
   </head>
 
-  <style>
+<!--  <style>
   td {
       width: 40px;
       border: 1px solid grey;
@@ -19,8 +20,9 @@
       color: black;
   }
   </style>
+-->
 
-  <body style="text-align: center;">
+  <body>
 
     <div class="container">
 
@@ -39,6 +41,8 @@
             <li>
               <a href="#" onClick="statusRemoveGreen();">Niv&aring; fr&aring;n resultat</a>
             </li>
+          </ul>
+          <ul>
             <li>
               <a href="#" onClick="questionModeTimer(300);">Utmaning: 5min</a>
             </li>
@@ -237,7 +241,7 @@
         </div>
         <div id="madeby2">
           <p>
-            <span id="time" style="opacity: 0"></span><br />
+            <span id="time"></span><br />
             <span id="question"></span><br />
             <a href="#" onClick="toggleTable();"><span id="rattTotalt"></span></a><br />
             <a href="#">Multi&nbsp;v</a><a href="#" onClick="resetScore();">0</a><a href="#">.3</a> anv&auml;nder cookies</h2>
