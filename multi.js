@@ -61,11 +61,32 @@ if (document.cookie != "") {
   updateStatus();
 }
 
+let toggleMoveOn = 0;
+
+if (getQueryStringValue("mo") == 1) {
+  toggleMoveOnF();
+}
 
 newQuestion();
 document.getElementById("tableResultat").style.visibility = "hidden";
 document.getElementById("rattFel").innerHTML = `V&auml;lkommen!`;
+document.getElementById("toggleMoveOnText").innerHTML = `Inst&auml;llning: G&aring; vidare`;
+document.getElementById("toggleMoveOnText").style.visibility = "hidden";
 
+function getQueryStringValue (key) {
+  return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
+
+function toggleMoveOnF() {
+  if (toggleMoveOn == 0) {
+    toggleMoveOn = 1;
+    document.getElementById("toggleMoveOnText").innerHTML = `Inst&auml;llning: Upprepa fel`;
+  } else {
+    toggleMoveOn = 0;
+    document.getElementById("toggleMoveOnText").innerHTML = `Inst&auml;llning: G&aring; vidare`;
+  }
+
+}
 
 function questionModeNr(nrQuestions) {
   if (mode == MODE_NR) {
@@ -89,6 +110,9 @@ function questionModeForever() {
   newQuestion();
   document.getElementById("rattFel").innerHTML = ""
   document.getElementById("guessText").focus();
+  document.querySelector("#question").textContent = "";
+
+
 }
 
 function questionModeTimer(duration) {
@@ -181,25 +205,29 @@ window.onload = function () {
 function toggleTable() {
   if (document.getElementById("tableResultat").style.visibility == "hidden") {
     document.getElementById("tableResultat").style.visibility = "visible";
+    document.getElementById("toggleMoveOnText").style.visibility = "visible";
   } else {
     document.getElementById("tableResultat").style.visibility = "hidden";
+    document.getElementById("toggleMoveOnText").style.visibility = "hidden";
   }
   document.getElementById("guessText").focus();
 
 }
 
 // Slumpar en ny fråga och uppdaterar textfält.
-function newQuestion() {
+function newQuestion(upprepa = 0) {
   if (mode != MODE_DISABLED){
     document.getElementById("fraga").style.visibility = "visible";
     document.getElementById("guessText").style.visibility = "visible";
 
-    let i = 0;
-    while (i < 300) {
-      multiplikator = Math.floor((Math.random() * 11));
-      multiplikand = Math.floor((Math.random() * 11));
-      if (getStatus(multiplikator, multiplikand) == ENABLED) { break; }
-      i++;
+    if (upprepa == 0) {
+      let i = 0;
+      while (i < 300) {
+        multiplikator = Math.floor((Math.random() * 11));
+        multiplikand = Math.floor((Math.random() * 11));
+        if (getStatus(multiplikator, multiplikand) == ENABLED) { break; }
+        i++;
+      }
     }
 
     document.getElementById("fraga").innerHTML = `${multiplikator} &middot; ${multiplikand} =`;
@@ -273,7 +301,11 @@ function guess()
     if (mode == MODE_TIMER) { modeRattTime++ };
     if (mode == MODE_NR) { modeRattNr++ };
   } else {
-    msgSvar = `Inte riktigt, &nbsp; ${multiplikator} &middot; ${multiplikand} = ${multiplikator * multiplikand}` ; // Fel svar
+    if (toggleMoveOn == 0) {
+      msgSvar = `Inte riktigt, &nbsp; ${multiplikator} &middot; ${multiplikand} = ${multiplikator * multiplikand}` ; // Fel svar
+    } else {
+      msgSvar = `Inte riktigt, f&ouml;rs&ouml;k igen:`
+    }
     document.getElementById("rattFel").style.color = "MistyRose"
     antalFel++;
     fel[multiplikator][multiplikand]=fel[multiplikator][multiplikand] + 1;
@@ -293,10 +325,18 @@ function guess()
         modeTotalNr = 0;
     } else {
       document.querySelector("#question").textContent = "Utmaning: " + modeCurrentNr + "/" + modeTotalNr;
-      newQuestion();
+      if (toggleMoveOn == 1 && guessText != multiplikator * multiplikand) {
+        newQuestion(1);
+      } else {
+        newQuestion(0);
+      }
     }
   } else {
-    newQuestion();
+    if (toggleMoveOn == 1 && guessText != multiplikator * multiplikand) {
+      newQuestion(1);
+    } else {
+      newQuestion(0);
+    }
   }
 
   updateScore();
