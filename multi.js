@@ -16,13 +16,35 @@
 
 "use strict";
 
+/* Open */
+function openNav1() {
+  document.getElementById("myNav1").style.display = "block";
+}
+function closeNav1() {
+  document.getElementById("myNav1").style.display = "none";
+}
+
+function openNav2() {
+  document.getElementById("myNav2").style.display = "block";
+}
+function closeNav2() {
+  document.getElementById("myNav2").style.display = "none";
+}
+
+function openNav3() {
+  document.getElementById("myNav3").style.display = "block";
+}
+function closeNav3() {
+  document.getElementById("myNav3").style.display = "none";
+}
+
 let antalRatt = 0;
 let antalFel = 0;
 let ratt = matrix(11,11,0);
 let fel = matrix(11,11,0);
 let tidfel = matrix(11,11,0);
 let status = matrix(11,11,0);
-let msgSvar = ``;
+let msgSvar = `V&auml;kommen!`;
 let countdown = 4;
 
 const MODE_DISABLED = 0;
@@ -30,7 +52,6 @@ const MODE_TIMER = 1;
 const MODE_NR = 2;
 const MODE_FOREVER = 3;
 let mode = MODE_FOREVER;
-
 
 let modeTotalNr = 0;
 let modeCurrentNr = 0;
@@ -67,15 +88,16 @@ let toggleMoveOn = 0;
 
 if (getQueryStringValue("mo") == 1) {
   toggleMoveOnF();
+} else {
+/*  toggleMoveOnF();
+  toggleMoveOnF();*/
 }
 
 newQuestion();
-document.getElementById("time").style.opacity = "0";
-document.getElementById("tableResultat").style.visibility = "hidden";
-document.getElementById("rattFel").innerHTML = `V&auml;lkommen!`;
-document.getElementById("toggleMoveOnText").innerHTML = `Inst&auml;llning: G&aring; vidare`;
-document.getElementById("toggleMoveOnText").style.visibility = "hidden";
-document.getElementById("guessText").focus();
+
+/*document.getElementById("time").style.opacity = "0";*/
+document.getElementById("madeby1").style.visibility = "hidden";
+/*document.getElementById("guessText").focus();*/
 
 function getQueryStringValue (key) {
   return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -93,18 +115,15 @@ function toggleMoveOnF() {
 }
 
 function questionModeNr(nrQuestions) {
-  if (mode == MODE_NR) {
-    modeCurrentNr = nrQuestions;
-    modeRattNr = 0;
-  } else {
-    mode = MODE_NR;
-    modeRattNr = 0;
-    modeTotalNr = nrQuestions;
-    modeCurrentNr = 1;
-    newQuestion();
-  }
+
+  mode = MODE_NR;
+  modeRattNr = 0;
+  modeTotalNr = nrQuestions;
+  modeCurrentNr = 1;
+  newQuestion();
+
   document.querySelector("#question").textContent = "Utmaning: " + modeCurrentNr + "/" + modeTotalNr;
-  document.getElementById("rattFel").innerHTML = "Utmaning: " + nrQuestions + " fr&aring;gor";
+  document.getElementById("rattFel").innerHTML = "Utmaning: " + nrQuestions + " st";
   document.getElementById("guessText").focus();
 
 }
@@ -125,27 +144,31 @@ function questionModeTimer(duration) {
     modeCurrentTime = duration;
     modeRattTime = 0;
     modeQuestionsTime = 0;
-  } else {
-    mode = MODE_TIMER;
-    modeCurrentTime = duration;
-    newQuestion();
-    let textOut
-    let timerInterval = setInterval(function ()
-    {
-        textOut = modeCurrentTime < 10 ? "0" + modeCurrentTime : modeCurrentTime;
-        document.querySelector("#question").textContent = "Utmaning: " + textOut + " sekunder";
-        document.getElementById("guessText").focus();
-        if (--modeCurrentTime < 0) {
-          mode = MODE_DISABLED;
-          modeCurrentTime = 0;
-          document.getElementById("rattFel").innerHTML = 'Utmaningstiden &auml;r slut! Du hade ' + modeRattTime + " r&auml;tt av " + modeQuestionsTime + ".";
-          document.getElementById("fraga").style.visibility = "hidden";
-          document.getElementById("guessText").style.visibility = "hidden";
-          clearInterval(timerInterval);
-        }
-
-    }, 1000);
   }
+  mode = MODE_TIMER;
+  modeCurrentTime = duration;
+  newQuestion();
+  let textOut
+  let timerInterval = setInterval(function ()
+  {
+    if (mode != MODE_TIMER) {
+      clearInterval(timerInterval);
+    } else {
+      textOut = modeCurrentTime < 10 ? "0" + modeCurrentTime : modeCurrentTime;
+      document.querySelector("#question").textContent = "Utmaning: " + (textOut-1) + " sekunder";
+      document.getElementById("guessText").focus();
+      if (--modeCurrentTime < 0) {
+        mode = MODE_DISABLED;
+        modeCurrentTime = 0;
+        document.getElementById("rattFel").innerHTML = 'Utmaningstiden &auml;r slut! Du hade ' + modeRattTime + " r&auml;tt av " + modeQuestionsTime + ".";
+        document.getElementById("fraga").style.visibility = "hidden";
+        document.getElementById("guessText").style.visibility = "hidden";
+        clearInterval(timerInterval);
+      }
+    }
+
+  }, 1000);
+
   document.getElementById("rattFel").innerHTML = "Utmaning: " + duration + " sekunder";
 }
 
@@ -159,7 +182,7 @@ function countdownTimer(duration, display) {
 
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = "Uppgift: " + seconds + " sekunder";
+/*        display.textContent = "Uppgift: " + seconds + " sekunder";*/
 
         if (--countdownTime < 0) {
           // Tidfel
@@ -207,12 +230,10 @@ window.onload = function () {
 
 // Växlar om tabllen visas eller ej samt ger guessText fokus
 function toggleTable() {
-  if (document.getElementById("tableResultat").style.visibility == "hidden") {
-    document.getElementById("tableResultat").style.visibility = "visible";
-    document.getElementById("toggleMoveOnText").style.visibility = "visible";
+  if (document.getElementById("madeby1").style.visibility == "hidden") {
+    document.getElementById("madeby1").style.visibility = "visible";
   } else {
-    document.getElementById("tableResultat").style.visibility = "hidden";
-    document.getElementById("toggleMoveOnText").style.visibility = "hidden";
+    document.getElementById("madeby1").style.visibility = "hidden";
   }
   document.getElementById("guessText").focus();
 

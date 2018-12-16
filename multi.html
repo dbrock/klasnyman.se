@@ -6,21 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="multi.css" />
-    <title>Multi v0.3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Multi v0.4</title>
   </head>
-
-<!--  <style>
-  td {
-      width: 40px;
-      border: 1px solid grey;
-  }
-  table {
-      border-collapse: collapse;
-      background-color: white;
-      color: black;
-  }
-  </style>
--->
 
   <body>
 
@@ -28,45 +16,91 @@
 
       <header>
         <nav>
-          <ul>
-            <li>
-              <a href="#" onClick="statusMedium();">Niv&aring; 1</a>
-            </li>
-            <li>
-              <a href="#" onClick="statusHard();">Niv&aring; 2</a>
-            </li>
-            <li>
-              <a href="#" onClick="statusSvaraHornet();">Niv&aring; 3</a>
-            </li>
-            <li>
-              <a href="#" onClick="statusRemoveGreen();">Niv&aring; fr&aring;n resultat</a>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <a href="#" onClick="questionModeTimer(300);">Utmaning: 5min</a>
-            </li>
-            <li>
-              <a href="#" onClick="questionModeNr(50);">Utmaning: 50st</a>
-            </li>
-            <li>
-              <a href="#" onClick="questionModeForever();">Ingen utmaning</a>
-            </li>
-          </ul>
+          <div class="topnav" id="myTopnav">
+            <a href="#" onClick="openNav1()"><i class="fa fa-university"></i></a>
+<!--            <a href="#" onClick="statusMedium();myMenu();">Niv&aring; 1</a>
+            <a href="#" onClick="statusHard();myMenu();">Niv&aring; 2</a>
+            <a href="#" onClick="statusSvaraHornet();myMenu();">Niv&aring; 3</a>
+            <a href="#" onClick="statusRemoveGreen();myMenu();">Niv&aring; fr&aring;n resultat</a>
+            <a href="#" onClick="questionModeTimer(300);myMenu();">Utmaning: 5min</a>
+            <a href="#" onClick="questionModeNr(50);myMenu();">Utmaning: 50st</a>
+            <a href="#" onClick="questionModeForever();myMenu();">Ingen utmaning</a>
+-->            <a href="javascript:void(0);" class="icon" onclick="openNav3()">
+              <i class="fa fa-play-circle"></i>
+            </a>
+            <a href="javascript:void(0);" class="icon" onclick="openNav2()">
+              <i class="fa fa-cogs"></i>
+            </a>
+          </div>
         </nav>
+
+<!-- The overlay -->
+<div id="myNav1" class="overlay" style="display:none;">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
+
+  <!-- Overlay content -->
+  <div class="overlay-content">
+    <a href="#">Multi v0.4</a>
+    <a href="https://klasnyman.se">klasnyman.se</a>
+    <a href="#" onClick="resetScore();closeNav1();">Multi v0.4 anv&auml;nder cookies.</a></h2>
+  </div>
+
+</div>
+
+<!-- Settings menu -->
+<div id="myNav2" class="overlay" style="display:none;">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
+
+  <!-- Overlay content -->
+  <div class="overlay-content">
+    <a href="#" onClick="statusMedium();closeNav2();">Niv&aring; 1</a>
+    <a href="#" onClick="statusHard();closeNav2();">Niv&aring; 2</a>
+    <a href="#" onClick="statusSvaraHornet();closeNav2();">Niv&aring; 3</a>
+    <a href="#" onClick="statusRemoveGreen();closeNav2();">Niv&aring; fr&aring;n resultat</a></br></br>
+    <a href="#" onClick="toggleMoveOnF();"><span id="toggleMoveOnText">Inst&auml;llning: G&aring; vidare</span></a>
+    <a href="#" onClick="toggleTable();closeNav2();"><span id="rattTotalt"></span></a>
+
+  </div>
+
+</div>
+
+<!-- Play menu -->
+<div id="myNav3" class="overlay" style="display:none;">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
+
+  <!-- Overlay content -->
+  <div class="overlay-content">
+    <a href="#" onClick="questionModeForever();closeNav3();">Ingen utmaning</a>
+    <a href="#" onClick="questionModeTimer(30);closeNav3();">30 sekunder</a>
+    <a href="#" onClick="questionModeTimer(120);closeNav3();">2 minuter</a>
+    <a href="#" onClick="questionModeTimer(300);closeNav3();">5 minuter</a>
+    <a href="#" onClick="questionModeNr(10);closeNav3();">10 stycken</a>
+    <a href="#" onClick="questionModeNr(50);closeNav3();">50 stycken</a>
+    <a href="#" onClick="questionModeNr(100);closeNav3();">100 stycken</a>
+  </div>
+
+</div>
+
+
       </header>
 
       <div class="cover">
-        <h1><span id="rattFel" style="font-size: 80%;"></span></h1>
+        <h1><span id="rattFel">V&auml;lkommen!</span></h1>
         <h1><span id="fraga"></span>
           <input autofocus id="guessText" type="tel" pattern="[0-9]*" style="font-size: 100%; width: 100px; text-align: center;" value=""
           onkeydown = "if (event.keyCode == 13) guess()"
           onkeyup="textChange()"
           onblur="guess()" />
         </h1>
-        <div id="madeby1">
+        <div id="madeby1" style="visibility: hidden;">
+          <div><i class="fa fa-times-circle" onClick="toggleTable();"></i></div>
           <span>
-            <a href="#" onClick="toggleMoveOnF();"><span id="toggleMoveOnText"></span></a><br />
             <table id="tableResultat">
               <tr><td onClick="changeStatusAll();"></td>
                 <td onClick="changeStatusColumn(0);">0</td>
@@ -241,11 +275,11 @@
         </div>
         <div id="madeby2">
           <p>
-            <span id="time" style="opacity: 0"></span><br />
+<!--            <span id="time" style="opacity: 0"></span><br />-->
             <span id="question"></span><br />
-            <a href="#" onClick="toggleTable();"><span id="rattTotalt"></span></a><br />
+<!--            <a href="#" onClick="toggleTable();"><span id="rattTotalt"></span></a><br />
             <a href="#">Multi&nbsp;v</a><a href="#" onClick="resetScore();">0</a><a href="#">.3</a> anv&auml;nder cookies</h2>
-
+-->
           </p>
         </div>
       </div>
