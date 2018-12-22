@@ -1,1 +1,119 @@
-asdf
+
+<!DOCTYPE HTML>
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="multi.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Multi v0.4</title>
+  </head>
+
+  <body>
+      <header>
+        <!-- Navigation field -->
+        <nav>
+          <div class="topnav" id="myTopnav">
+            <a onClick="openNav1()" href="javascript:void(0);"><i class="fa fa-university"></i></a>
+            <a onClick="openNav3()" href="javascript:void(0);" class="icon"><i class="fa fa-play-circle"></i></a>
+            <a onclick="openNav2()" href="javascript:void(0);" class="icon"><i class="fa fa-cogs"></i></a>
+            <a onclick="openNav4()" href="javascript:void(0);" class="icon"><i class="fa fa-th"></i></a>
+          </div>
+        </nav>
+
+        <!-- Home menu #1-->
+        <div id="myNav1" class="overlay" style="display:none;">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
+          <div class="overlay-content">
+            <a href="#">Multi v0.4</a>
+            <a href="https://klasnyman.se">klasnyman.se</a>
+            <a href="#" onClick="resetScore();closeNav1();">Multi v0.4 anv&auml;nder cookies.</a></h2>
+          </div>
+        </div>
+
+        <!-- Table #4 -->
+        <div id="myNav4" class="overlay" style="display:none;">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav4()">&times;</a>
+          <div class="overlay-content">
+            <span id="rattTotalt"></span>
+            <a href="#" onClick="statusRemoveGreen();">Niv&aring; fr&aring;n resultat</a></br></br>
+            <table id="tableResultat"></table>
+            <p>Tabellen visar ditt resultat. Första siffran i varje cell visar antal rätt på kort tid. Andra siffran rätt men på längre tid. Tredje siffran visar antal fel.</p>
+            <p>Klicka på en rad/kolumn eller cell för att välja om den ska vara med eller inte. Det går även att göra inställningar utifrån nivåer i inställningsmenyn.</p>
+          </div>
+        </div>
+
+        <!-- Settings menu #2 -->
+        <div id="myNav2" class="overlay" style="display:none;">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
+          <div class="overlay-content">
+            <a href="#">Välj tabell (T) eller nivå (N):</a>
+            <div class="inline">
+              <a href="#" onClick="statusNumber(1);closeNav2();">T1</a>
+              <a href="#" onClick="statusNumber(2);closeNav2();">T2</a>
+              <a href="#" onClick="statusNumber(3);closeNav2();">T3</a>
+              <a href="#" onClick="statusNumber(4);closeNav2();">T4</a>
+              <a href="#" onClick="statusNumber(5);closeNav2();">T5</a>
+            </div>
+            <div class="inline">
+              <a href="#" onClick="statusNumber(6);closeNav2();">T6</a>
+              <a href="#" onClick="statusNumber(7);closeNav2();">T7</a>
+              <a href="#" onClick="statusNumber(8);closeNav2();">T8</a>
+              <a href="#" onClick="statusNumber(9);closeNav2();">T9</a>
+              <a href="#" onClick="statusNumber(10);closeNav2();">T10</a>
+            </div>
+            <div class="inline">
+              <a href="#" onClick="statusMedium();closeNav2();">N1</a>
+              <a href="#" onClick="statusHard();closeNav2();">N2</a>
+              <a href="#" onClick="statusSvaraHornet();closeNav2();">N3</a>
+            </div>
+            <a href="#" onClick="toggleMoveOnF();"><span id="toggleMoveOnText">Inst&auml;llning: G&aring; vidare</span></a>
+          </div>
+        </div>
+
+        <!-- Play menu #3-->
+        <div id="myNav3" class="overlay" style="display:none;">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
+          <div class="overlay-content">
+            <a href="#" onClick="questionModeForever();closeNav3();">Ingen utmaning</a>
+            <a href="#" onClick="questionModeTimer(30);closeNav3();">30 sekunder</a>
+            <a href="#" onClick="questionModeTimer(120);closeNav3();">2 minuter</a>
+            <a href="#" onClick="questionModeTimer(300);closeNav3();">5 minuter</a>
+            <a href="#" onClick="questionModeNr(10);closeNav3();">10 stycken</a>
+            <a href="#" onClick="questionModeNr(50);closeNav3();">50 stycken</a>
+            <a href="#" onClick="questionModeNr(100);closeNav3();">100 stycken</a>
+          </div>
+        </div>
+
+      </header>
+
+      <div class="cover">
+        <h1><span id="rattFel">V&auml;lkommen!</span></h1>
+        <h1><span id="fraga"></span>
+          <input autofocus id="guessText"
+          type="tel"
+          pattern="[0-9]*"
+          style="font-size: 100%; width: 100px; text-align: center;"
+          value=""
+          onkeydown = "if (event.keyCode == 13) guess()"
+          onkeyup="textChange()"
+          onblur="guess()" />
+        </h1>
+
+        <!-- Result table -->
+        <div id="madeby1">
+          <i class="fa fa-times-circle" onClick="toggleTable();"></i>
+<!--            <table id="tableResultat"></table>-->
+        </div>
+
+        <!-- Question display -->
+        <div id="madeby2">
+            <span id="question"></span>
+        </div>
+      </div> <!-- cover -->
+
+    <script src="multi.js">
+    </script>
+  </body>
+</html>
