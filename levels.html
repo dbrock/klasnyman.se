@@ -18,7 +18,7 @@ nav .next { background: rgba(0,128,0,.2); cursor: pointer }
 nav { cursor: default }
 nav { position: fixed; top: 0; left: 0; width: 100% }
 nav { padding: .5rem; background: #eee; font-size: .8rem }
-.wrong span { color: red }
+.wrong span > span { color: red }
 .right { color: green }
 .right, .wrong, input { margin-top: .5rem }
 body { margin: 1rem; max-width: 20rem; margin: auto; padding: 3rem 1rem }
@@ -45,14 +45,21 @@ let levels = [[{
   q: "Vilket bokstaw kommer först?",
   choices: ["a", "b", "c"],
   a: "a",
-}], iota(7).map(x => ({
-  l: 0, q: `<img width=200 src=../octo/bug-0${x + 1}-still.svg> <div>Vad är ${x} + 1?</div>`, a: x + 1,
+},{
+  l: 0,
+  type: "choice",
+  q: "Vilket bokstawwww kommer sist?",
+  choices: ["a", "b", "c", "d"],
+  a: "d",
+}
+], iota(7).map(x => ({
+  l: 1, q: `<img width=200 src=../octo/bug-0${x + 1}-still.svg> <div>Vad är ${x} + 1?</div>`, a: x + 1,
 })), iota(10).map(x => ({
-  l: 1, q: `Vad är ${x} * 2?`, a: x * 2,
+  l: 2, q: `Vad är ${x} * 2?`, a: x * 2,
 })), iota(10).map(x => ({
-  l: 2, q: `Vad är ${x}<sup>2</sup>?`, a: x * x,
+  l: 3, q: `Vad är ${x}<sup>2</sup>?`, a: x * x,
 })), iota(10).map(x => ({
-  l: 3, q: `Vad är ${x}!?`, a: fact(x),
+  l: 4, q: `Vad är ${x}!?`, a: fact(x),
 }))]
 
 let save = () => localStorage.setItem("state", JSON.stringify(state))
