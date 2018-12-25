@@ -26,12 +26,11 @@ article:last-child { box-shadow: .1rem .1rem rgba(0,0,0,.2); }
 <script src=react.development.js></script>
 <script src=react-dom.development.js></script>
 <script type=text/babel>
-let iota = x => [...Array(x).keys()]
-let rand = x => Math.floor(Math.random() * x)
-let pick = x => x[rand(x.length)]
 let copy = x => JSON.parse(JSON.stringify(x))
-let trace = x => (console.log(x), x)
+let iota = x => [...Array(x).keys()]
 let last = x => x[x.length - 1]
+let pick = x => x[rand(x.length)]
+let rand = x => Math.floor(Math.random() * x)
 
 let levels = [iota(7).map(x => ({
   l: 0, q: `<div class=question><img width=200 src=../octo/bug-0${x + 1}-still.svg> <div>Vad är ${x} + 1?</div></div>`, a: x + 1,
@@ -54,13 +53,13 @@ let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("sta
 let wait = 0
 let answer = () => {
   wait = 1
-  last(state.problems).b = state.c
+  last(state.problems).b = state.c, save()
   update({ c: "" })
   setTimeout(() => {
     if (state.problems.length >= 3 && state.problems.slice(state.problems.length - 3).every(x => x.b == x.a && x.l == last(state.problems).l))
-      state.current++
+      state.current++, save()
     if (levels[state.current])
-      state.problems.push(copy(pick(levels[state.current])))
+      state.problems.push(copy(pick(levels[state.current]))), save()
     else
       update({ win: 1 })
     setTimeout(() => scroll(0, 999999999), 20)
@@ -98,5 +97,4 @@ requestAnimationFrame(function loop() {
   ReactDOM.render(render(), root)
   requestAnimationFrame(loop)
 })
-
 </script>
