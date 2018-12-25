@@ -42,8 +42,13 @@ let list = x => Object.keys(x).filter(y => x[y])
 let levels = [[{
   l: 0,
   type: "choice",
+<<<<<<< HEAD
   q: "Vilket bokstaw kommer först?",
   choices: ["a", "b", "c"],
+=======
+  q: "<img width=200 src=../octo/bug-01-still.svg> <div> vilket bokstaw kommer först",
+  choices: ["a", "b"],
+>>>>>>> ca7802bf474e20fb0521bf05a7838d8711b12813
   a: "a",
 }], iota(7).map(x => ({
   l: 0, q: `<img width=200 src=../octo/bug-0${x + 1}-still.svg> <div>Vad är ${x} + 1?</div>`, a: x + 1,
