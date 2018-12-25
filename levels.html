@@ -22,18 +22,18 @@ article { border: 1px solid #eee; padding: .5rem; margin: .5rem 0; }
 article:last-child { box-shadow: .1rem .1rem rgba(0,0,0,.2); }
 </style>
 <div id=root></div>
+<script src=babel.min.js></script>
 <script src=react.development.js></script>
 <script src=react-dom.development.js></script>
-<script>
-tag = (x, o={}, a=[]) => React.createElement(x, o, ...a)
-iota = x => [...Array(x).keys()]
-rand = x => Math.floor(Math.random() * x)
-pick = x => x[rand(x.length)]
-copy = x => JSON.parse(JSON.stringify(x))
-trace = x => (console.log(x), x)
-last = x => x[x.length - 1]
+<script type=text/babel>
+let iota = x => [...Array(x).keys()]
+let rand = x => Math.floor(Math.random() * x)
+let pick = x => x[rand(x.length)]
+let copy = x => JSON.parse(JSON.stringify(x))
+let trace = x => (console.log(x), x)
+let last = x => x[x.length - 1]
 
-levels = [iota(7).map(x => ({
+let levels = [iota(7).map(x => ({
   l: 0, q: `<div class=question><img width=200 src=../octo/bug-0${x + 1}-still.svg> <div>Vad är ${x} + 1?</div></div>`, a: x + 1,
 })), iota(10).map(x => ({
   l: 1, q: `Vad är ${x} * 2?`, a: x * 2,
@@ -41,18 +41,18 @@ levels = [iota(7).map(x => ({
   l: 1, q: `Vad är ${x}<sup>2</sup>?`, a: x * x,
 }))]
 
-save = () => localStorage.setItem("state", JSON.stringify(state))
-update = patch => (Object.assign(state, patch), save())
+let save = () => localStorage.setItem("state", JSON.stringify(state))
+let update = patch => (Object.assign(state, patch), save())
 
-state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
+let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
   problems: [copy(pick(levels[0]))],
   current: 0,
   win: 0,
   c: "",
 }
 
-wait = 0
-answer = () => {
+let wait = 0
+let answer = () => {
   wait = 1
   last(state.problems).b = state.c
   update({ c: "" })
@@ -68,29 +68,31 @@ answer = () => {
   }, 300)
 }
 
-render = () => tag("div", {}, [
-  tag("nav", {},
-    iota(levels.length).map(x => tag("span", { className: x == state.current ? "current" : x < state.current ? "done" : ""}, [tag("span", {}, [tag("span", {}, [x + 1])])]))
-  ),
-  tag("div", {}, state.problems.map(({ q, a, b }, i) => tag("article", {}, [
-    tag("div", { dangerouslySetInnerHTML: { __html: q } }),
-    b != null && tag("div", {
-      className: a == b ? "right" : "wrong"
-    }, a == b ? [a] : [tag("span", {}, [`${b} → `]), a]),
-    i == state.problems.length - 1 && !wait && tag("form", {
-      onSubmit: event => (event.preventDefault(), answer()),
-    }, [
-      tag("input", {
-        autoComplete: "off",
-        onChange: event => update({ c: event.target.value }),
-        value: state.c,
-        autoFocus: true,
-        style: { outline: "none" },
-      }),
-    ])
-  ]))),
-  !!state.win && "hurra",
-])
+let render = () => <div>
+  <nav>
+    {iota(levels.length).map(x => <span
+      key={x}
+      className={x == state.current ? "current" : x < state.current ? "done" : ""}
+    ><span><span>{x + 1}</span></span></span>)}
+  </nav>
+  <div>{state.problems.map(({ q, a, b }, i) => <article key={i}>
+    <div dangerouslySetInnerHTML={{ __html: q }}/>
+    {b != null && <div
+      className={a == b ? "right" : "wrong"}
+    >{a == b ? a : <span><span>{b} → </span> {a}</span>}</div>}
+    {i == state.problems.length - 1 && !wait && <form
+      onSubmit={event => (event.preventDefault(), answer())}
+    >
+      <input
+        autoComplete="off"
+        onChange={event => update({ c: event.target.value })}
+        value={state.c}
+        autoFocus={true}
+        style={{ outline: "none" }}/>
+    </form>}
+  </article>)}</div>
+  {!!state.win && "hurra"}
+</div>
 
 requestAnimationFrame(function loop() {
   ReactDOM.render(render(), root)
