@@ -21,6 +21,7 @@ nav { padding: .5rem; background: #eee; font-size: .8rem }
 .wrong span > span { color: red }
 .right { color: green }
 .right, .wrong, input { margin-top: .5rem }
+.message {background: rgba(128,128,0,.5)}
 body { margin: 1rem; max-width: 20rem; margin: auto; padding: 3rem 1rem }
 article { background: white; }
 article { border: 1px solid #eee; padding: .5rem; margin: .5rem 0; }
@@ -40,26 +41,35 @@ let fact = x => x == 0 ? 1 : x * fact(x - 1)
 let list = x => Object.keys(x).filter(y => x[y])
 
 let levels = [[{
-  l: 0,
+  l: 1,
   type: "choice",
   q: "Vilket bokstaw kommer först?",
   choices: ["a", "b", "c"],
   a: "a",
+  moveon: 1,
 },{
-  l: 0,
+  l: 1,
   type: "choice",
   q: "Vilket bokstawwww kommer sist?",
   choices: ["a", "b", "c", "d"],
   a: "d",
+  moveon: 1,
 }
 ], iota(7).map(x => ({
-  l: 1, q: `<img width=200 src=../octo/bug-0${x + 1}-still.svg> <div>Vad är ${x} + 1?</div>`, a: x + 1,
+  l: 2, q: `<img width=200 src=bg3.jpg> <div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2,
 })), iota(10).map(x => ({
-  l: 2, q: `Vad är ${x} * 2?`, a: x * 2,
+  l: 3, q: `Vad är ${x} * 2?`, a: x * 2,  moveon: 3,
 })), iota(10).map(x => ({
-  l: 3, q: `Vad är ${x}<sup>2</sup>?`, a: x * x,
+  l: "V",
+  type: "message",
+  q: "Nu blir det svårare!",
+  choices: [""],
+  a: "",
+  moveon: 1,
 })), iota(10).map(x => ({
-  l: 4, q: `Vad är ${x}!?`, a: fact(x),
+  l: 4, q: `Vad är ${x}<sup>2</sup>?`, a: x * x,  moveon: 4,
+})), iota(5).map(x => ({
+  l: 5, q: `${x}! =`, a: fact(x),   moveon: 5,
 }))]
 
 let save = () => localStorage.setItem("state", JSON.stringify(state))
@@ -79,7 +89,7 @@ let answer = () => {
   last(state.problems).b = state.c, save()
   update({ c: "" })
   setTimeout(() => {
-    if (state.problems.length >= 3 && state.problems.slice(state.problems.length - 3).every(x => x.b == x.a && x.l == last(state.problems).l))
+    if (state.problems.length >= last(state.problems).moveon && state.problems.slice(state.problems.length - last(state.problems).moveon).every(x => x.b == x.a && x.l == last(state.problems).l))
       state.current++, state.max = Math.max(state.max, state.current), save()
     if (levels[state.current])
       state.problems.push(copy(pick(levels[state.current]))), save()
@@ -101,18 +111,21 @@ let render = () => <div>
         next: x == state.max,
       }).join(" ")}
       onClick={x <= state.max && x != state.current ? () => (state.current = i, save()) : null}
-    ><span><span>{x + 1}</span></span></span>)}
+    ><span><span>{levels[x][0].l}</span></span></span>)}
   </nav>
-  <div>{state.problems.map(({ q, a, b, type, choices }, i) => <article key={i}>
+  <div>{state.problems.map(({ q, a, b, type, choices }, i) => <article key={i}  className={type}>
     <div dangerouslySetInnerHTML={{ __html: q }}/>
     {b != null && <div
       className={a == b ? "right" : "wrong"}
     >{a == b ? a : <span><span>{b} → </span> {a}</span>}</div>}
     {i == state.problems.length - 1 && !wait && <form
       onSubmit={event => (event.preventDefault(), answer())}
-    >{type == "choice" ? choices.map(x => <button onClick={() => update({ c: x })}>{x}</button>) :
+    >{type == "message" ? choices.map(x => <button onClick={() => update({ c: x })}>OK!</button>) :
+      type == "choice" ? choices.map(x => <button onClick={() => update({ c: x })}>{x}</button>) : // default type
       <input
         autoComplete="off"
+        type="tel"
+        pattern="[0-9]*"
         onChange={event => update({ c: event.target.value })}
         value={state.c}
         autoFocus={true}
