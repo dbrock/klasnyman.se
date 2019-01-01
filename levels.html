@@ -56,9 +56,9 @@ let levels = [[{
   moveon: 1,
 }
 ], iota(7).map(x => ({
-  l: 2, q: `<img width=200 src=bg3.jpg> <div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2,
+  l: 2, q: `<img width=200 src=bg3.jpg> <div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2, warning: 0,
 })), iota(10).map(x => ({
-  l: 3, q: `Vad är ${x} * 2?`, a: x * 2,  moveon: 3,
+  l: 3, q: `Vad är ${x} * 2?`, a: x * 2, moveon: 3,
 })), iota(10).map(x => ({
   l: "V",
   type: "message",
@@ -67,9 +67,9 @@ let levels = [[{
   a: "",
   moveon: 1,
 })), iota(10).map(x => ({
-  l: 4, q: `Vad är ${x}<sup>2</sup>?`, a: x * x,  moveon: 4,
+  l: 4, q: `Vad är ${x}<sup>2</sup>?`, a: x * x, moveon: 4,
 })), iota(5).map(x => ({
-  l: 5, q: `${x}! =`, a: fact(x),   moveon: 5,
+  l: 5, q: `${x}! =`, a: fact(x), moveon: 5,
 }))]
 
 let save = () => localStorage.setItem("state", JSON.stringify(state))
@@ -110,7 +110,7 @@ let render = () => <div>
         done: x < state.max,
         next: x == state.max,
       }).join(" ")}
-      onClick={x <= state.max && x != state.current ? () => (state.current = i, save()) : null}
+      onClick={x <= state.max && x != state.current ? () => (answer(), state.current = i, save()) : null}
     ><span><span>{levels[x][0].l}</span></span></span>)}
   </nav>
   <div>{state.problems.map(({ q, a, b, type, choices }, i) => <article key={i}  className={type}>
