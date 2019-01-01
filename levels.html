@@ -56,13 +56,13 @@ let levels = [[{
   moveon: 1,
 }
 ], iota(7).map(x => ({
-  l: 2, q: `<img width=200 src=bg3.jpg> <div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2, warning: 0,
+  l: 2, q: `<img width=200 src=bg3.jpg> <div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2,
 })), iota(10).map(x => ({
   l: 3, q: `Vad är ${x} * 2?`, a: x * 2, moveon: 3,
 })), iota(10).map(x => ({
   l: "V",
   type: "message",
-  q: "Nu blir det svårare!",
+  q: '<iframe width="560" height="315" src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
   choices: [""],
   a: "",
   moveon: 1,
@@ -120,7 +120,7 @@ let render = () => <div>
     >{a == b ? a : <span><span>{b} → </span> {a}</span>}</div>}
     {i == state.problems.length - 1 && !wait && <form
       onSubmit={event => (event.preventDefault(), answer())}
-    >{type == "message" ? choices.map(x => <button onClick={() => update({ c: x })}>OK!</button>) :
+    >{type == "message" ? choices.map(x => <button onClick={() => update({ c: x })}>→</button>) :
       type == "choice" ? choices.map(x => <button onClick={() => update({ c: x })}>{x}</button>) : // default type
       <input
         autoComplete="off"
