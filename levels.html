@@ -91,9 +91,13 @@ let answer = () => {
   setTimeout(() => {
     if (state.problems.length >= last(state.problems).moveon && state.problems.slice(state.problems.length - last(state.problems).moveon).every(x => x.b == x.a && x.l == last(state.problems).l))
       state.current++, state.max = Math.max(state.max, state.current), save()
-    if (levels[state.current])
-      state.problems.push(copy(pick(levels[state.current]))), save()
-    else
+    if (levels[state.current]) {
+      let temp = last(state.problems)
+      while (temp.q === last(state.problems).q)
+        {temp = copy(pick(levels[state.current]))}
+      state.problems.push(temp)
+      save()
+    } else
       update({ win: 1 })
     setTimeout(() => scroll(0, 999999999), 20)
     wait = 0
