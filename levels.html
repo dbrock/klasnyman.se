@@ -138,6 +138,7 @@ let render = () => <div>
         type="tel"
         pattern="[0-9]*"
         onChange={event => update({ c: event.target.value })}
+        onBlur={event => (answer())}
         value={state.c}
         autoFocus={true}
         style={{ outline: "none" }}/>
