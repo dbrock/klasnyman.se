@@ -2,7 +2,7 @@
 <meta charset=utf-8>
 <meta name=viewport content=width=device-width>
 <style>
-html { font: 24pt sans-serif; background: #eee; }
+html { font: 24pt sans-serif; background: #eee; background-image: url("white-waves.png"); }
 input, button { font: inherit; outline: none; text-align: left }
 button { cursor: pointer; margin-top: .5rem }
 input, button, .right, .wrong { box-sizing: border-box; width: 100% }
@@ -18,11 +18,11 @@ nav .done { background: rgba(0,128,0,.4); cursor: pointer }
 nav .next { background: rgba(0,128,0,.2); cursor: pointer }
 nav { cursor: default }
 nav { position: fixed; top: 0; left: 0; width: 100% }
-nav { padding: .5rem; background: #eee; font-size: .8rem }
+nav { padding: .5rem; background: #ddd; font-size: .8rem }
 .wrong span > span { color: red }
 .right { color: green }
 .right, .wrong, input { margin-top: .5rem }
-.message {background: rgba(128,128,0,.5)}
+.message {background: rgba(255,250,205,1)}
 .message button {text-align: center; }
 article .nohint {display: none;}
 article:last-child .existinghint, .displayhint {display: block; text-align: left; color:inherit; text-decoration: none;}
@@ -61,7 +61,7 @@ let levels = [[{
   moveon: 1,
 }
 ], iota(7).map(x => ({
-  l: 2, q: `<img width=200 src=bg3.jpg> <div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2, unit: "cm", displayhint: false, hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter<sup>2</sup> på tallinjen.`,
+  l: 2, q: `<div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2, displayhint: false, hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter<sup>2</sup> på tallinjen.`,
 })), iota(10).map(x => ({
   l: 3, q: `Vad är ${x} cm &middot; 2 cm?`, a: x * 2, moveon: 2, unit: "cm<sup>2</sup>",
 })), iota(10).map(x => ({
@@ -88,25 +88,27 @@ let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("sta
   c: "",
 }
 
-let wait = 0
+let wait, waittime = 0
 let answer = () => {
   wait = 1
   last(state.problems).b = state.c, save()
   update({ c: "" })
+  if (last(state.problems).b == last(state.problems).a)
+  {waittime = 500;} else {waittime = 2000;}
   setTimeout(() => {
-    if (state.problems.length >= last(state.problems).moveon && state.problems.slice(state.problems.length - last(state.problems).moveon).every(x => x.b == x.a && x.l == last(state.problems).l))
+    if (state.problems.length >= last(state.problems).moveon && state.problems.slice(state.problems.length - last(state.problems).moveon).every(x => x.b == x.a && !x.displayhint && x.l == last(state.problems).l))
       state.current++, state.max = Math.max(state.max, state.current), save()
     if (levels[state.current]) {
-      let temp = last(state.problems)
+      let temp;
+      do { temp = copy(pick(levels[state.current]))}
       while (temp.q === last(state.problems).q)
-        {temp = copy(pick(levels[state.current]))}
       state.problems.push(temp)
       save()
     } else
       update({ win: 1 })
     setTimeout(() => scroll(0, 999999999), 20)
     wait = 0
-  }, 300)
+  }, waittime)
 }
 
 let render = () => <div>
