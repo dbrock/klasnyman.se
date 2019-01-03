@@ -68,24 +68,24 @@ let levels = [[{
 })), iota(10).map(x => ({
   l: "V",
   type: "message",
-  q: '<iframe width="560" height="315" src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+  q: '<iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
   choices: [""],
   a: "",
   moveon: 1,
 })), iota(10).map(x => ({
-  l: 4, q: `Vad är ${x}<sup>2</sup>?`, a: x * x, moveon: 2, hint: `Visa hit från början kommer inte funka att gå vidare då!!!.`,
+  l: 4, q: `Vad är ${x}<sup>2</sup>?`, a: x * x, moveon: 2, hint: `En liten hjälptext.`,
 })), iota(5).map(x => ({
-  l: 5, q: `Hur många sätt finns det om det går att räkna ut med formeln ${x}! ?`, a: fact(x), moveon: 2, unit: "olika sätt",
+  l: 5, q: `Hur många sätt finns det om det går att räkna ut med formeln ${x}! ?`, a: fact(x), moveon: 2, unit: "olika sätt", hint: `En lite större hjälptext kombinerat med en enhet som i detta fallet är olika sätt...`,
 }))]
 
-let winmsg = [[{
+let  winMsg = [[{
   l: 1,
   type: "message",
   q: "Grattis! Du har klarat alla nivåer!",
   choices: [""],
   a: "",
-  moveon: 5,
 }]]
+
 let save = () => localStorage.setItem("state", JSON.stringify(state))
 let update = patch => (Object.assign(state, patch), save())
 
@@ -116,7 +116,8 @@ let answer = () => {
       save()
     } else {
       update({ win: 1 })
-      state.problems.push(copy(winmsg[0][0]))
+      state.problems.push(copy(winMsg[0][0]))
+      save()
     }
     setTimeout(() => scroll(0, 999999999), 20)
     wait = 0
@@ -133,7 +134,7 @@ let render = () => <div>
         done: x < state.max,
         next: x == state.max,
       }).join(" ")}
-      onClick={x <= state.max && x != state.current ? () => ( state.current = i, save()) : null}
+      onClick={x <= state.max && x != state.current ? () => ( state.current = i, save()) : (state.win ? answer(): null)}
     ><span><span>{levels[x][0].l}</span></span></span>)}
   </nav>
   <div>{state.problems.map(({ q, a, b, type, choices, unit, displayhint, hint }, i) => <article key={i} className={type}>
