@@ -26,7 +26,8 @@ nav { padding: .5rem; background: #fff; font-size: .8rem }
 .message button {text-align: center; }
 article .nohint {display: none;}
 article:last-child .existinghint, .displayhint {display: block; text-align: left; color:inherit; text-decoration: none;}
-article:last-child .displayhint {cursor: default; font-size: 80%;}
+article:last-child .displayhint {cursor: default; font-size: 70%; padding-top: .5rem}
+article:last-child .existinghint {color: #bbb; }
 body { margin: 1rem; max-width: 20rem; margin: auto; padding: 3rem 1rem }
 article { background: white; }
 article { border: 2px solid #eee; padding: .5rem; margin: .5rem 0; }
@@ -61,7 +62,7 @@ let levels = [[{
   moveon: 1,
 }
 ], iota(7).map(x => ({
-  l: 2, q: `<div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2, displayhint: false, hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter<sup>2</sup> på tallinjen.`,
+  l: 2, q: `<div>Vad är ${x} + 1?</div>`, a: x + 1,  moveon: 2, displayhint: false, hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter talet på tallinjen.`,
 })), iota(10).map(x => ({
   l: 3, q: `Vad är ${x} cm &middot; 2 cm?`, a: x * 2, moveon: 2, unit: "cm<sup>2</sup>",
 })), iota(10).map(x => ({
@@ -72,7 +73,7 @@ let levels = [[{
   a: "",
   moveon: 1,
 })), iota(10).map(x => ({
-  l: 4, q: `Vad är ${x}<sup>2</sup>?`, a: x * x, moveon: 2,
+  l: 4, q: `Vad är ${x}<sup>2</sup>?`, a: x * x, moveon: 2, hint: `Visa hit från början kommer inte funka att gå vidare då!!!.`,
 })), iota(5).map(x => ({
   l: 5, q: `Hur många sätt finns det om det går att räkna ut med formeln ${x}! ?`, a: fact(x), moveon: 2, unit: "olika sätt",
 }))]
@@ -132,13 +133,14 @@ let render = () => <div>
     {i == state.problems.length - 1 && !wait && <form
       onSubmit={event => (event.preventDefault(), answer())}
     >{type == "message" ? choices.map(x => <button onClick={() => update({ c: x })}>→</button>) :
-      type == "choice" ? choices.map(x => <button onClick={() => update({ c: x })}>{x}</button>) : // default type
+      type == "choice" ? choices.map(x => <button onClick={() => update({ c: x })}>{x}</button>) :
+      // default type
       <label><input
         autoComplete="off"
         type="tel"
         pattern="[0-9]*"
         onChange={event => update({ c: event.target.value })}
-        onBlur={event => (answer())}
+        onBlur={event => (event.relatedTarget ? (((event.relatedTarget).classNamn != "existinghint") ? (event.target).focus() : answer()) : answer())}
         value={state.c}
         autoFocus={true}
         style={{ outline: "none" }}/>
@@ -146,7 +148,7 @@ let render = () => <div>
         <a className= {hint ? (displayhint?"displayhint" : "existinghint") : "nohint"}
           href="javascript:void(0)"
           onClick={() => update(last(state.problems).displayhint=true, true)}
-          dangerouslySetInnerHTML={{__html:(displayhint ? hint : (hint?"	&#10068;":""))}}/>
+          dangerouslySetInnerHTML={{__html:(displayhint ? hint : (hint?"+":""))}}/>
       </label>
     }</form>}
   </article>)}</div>
