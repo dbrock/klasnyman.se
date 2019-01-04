@@ -46,7 +46,7 @@ let rand = x => Math.floor(Math.random() * x)
 let fact = x => x == 0 ? 1 : x * fact(x - 1)
 let list = x => Object.keys(x).filter(y => x[y])
 
-let levels = [[{
+let levels = [ p: [{
   levelName: 1,
   type: "choice",
   questionText: "Vilket bokstaw kommer först?",
@@ -61,11 +61,11 @@ let levels = [[{
   correctAnswer: "d",
   moveOn: 1,
 }
-], iota(7).map(x => ({
+], p: iota(7).map(x => ({
   levelName: 2, questionText: `<div>Vad är ${x} + 1?</div>`, correctAnswer: x + 1,  moveOn: 2, displayHint: false, hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter talet på tallinjen.`,
-})), iota(10).map(x => ({
+})), p: iota(10).map(x => ({
   levelName: 3, questionText: `Vad är ${x} cm &middot; 2 cm?`, correctAnswer: x * 2, moveOn: 2, unit: "cm<sup>2</sup>",
-})), iota(10).map(x => ({
+})), p: iota(10).map(x => ({
   levelName: "V",
   type: "message",
   questionText: '<iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
@@ -90,7 +90,7 @@ let save = () => localStorage.setItem("state", JSON.stringify(state))
 let update = patch => (Object.assign(state, patch), save())
 
 let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
-  problems: [copy(pick(levels[0]))],
+  articles: [copy(pick(levels[0]))],
   current: 0,
   max: 0,
   win: 0,
@@ -101,22 +101,22 @@ let wait, waittime = 0
 let answer = () => {
   wait = 1
   if (state.win == true) {state.win=false}
-  last(state.problems).b = state.c, save()
+  last(state.articles).b = state.c, save()
   update({ c: "" })
-  if (last(state.problems).b == last(state.problems).correctAnswer)
+  if (last(state.articles).b == last(state.articles).correctAnswer)
   {waittime = 500;} else {waittime = 2000;}
   setTimeout(() => {
-    if (state.problems.length >= last(state.problems).moveOn && state.problems.slice(state.problems.length - last(state.problems).moveOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.levelName == last(state.problems).levelName))
+    if (state.articles.length >= last(state.articles).moveOn && state.articles.slice(state.articles.length - last(state.articles).moveOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.levelName == last(state.articles).levelName))
       state.current++, state.max = Math.max(state.max, state.current), save()
     if (levels[state.current]) {
       let temp;
       do { temp = copy(pick(levels[state.current]))}
-      while (temp.questionText === last(state.problems).questionText)
-      state.problems.push(temp)
+      while (temp.questionText === last(state.articles).questionText)
+      state.articles.push(temp)
       save()
     } else {
       update({ win: 1 })
-      state.problems.push(copy(winMsg[0][0]))
+      state.articles.push(copy(winMsg[0][0]))
       save()
     }
     setTimeout(() => scroll(0, 999999999), 20)
@@ -137,12 +137,12 @@ let render = () => <div>
       onClick={x <= state.max && x != state.current ? () => ( state.current = i, save()) : (state.win ? answer(): null)}
     ><span><span>{levels[x][0].levelName}</span></span></span>)}
   </nav>
-  <div>{state.problems.map(({ questionText, correctAnswer, b, type, answerChoices, unit, displayHint, hint }, i) => <article key={i} className={type}>
+  <div>{state.articles.map(({ questionText, correctAnswer, b, type, answerChoices, unit, displayHint, hint }, i) => <article key={i} className={type}>
     <div dangerouslySetInnerHTML={{ __html: questionText }}/>
     {b != null && <div
       className={correctAnswer == b ? "right" : "wrong"} dangerouslySetInnerHTML={{__html:(correctAnswer == b ? correctAnswer + (unit ? ` ${unit}`: "") : (`<span><span>${b} ` + (unit ? (`${unit} `): "") + `→ </span>${correctAnswer}` + (unit ? (` ${unit}`):"") + "</span>"))}}
     ></div>}
-    {i == state.problems.length - 1 && !state.win && !wait && <form
+    {i == state.articles.length - 1 && !state.win && !wait && <form
       onSubmit={event => (event.preventDefault(), answer())}
     >{type == "message" ? answerChoices.map(x => <button onClick={() => update({ c: x })}>→</button>) :
       type == "choice" ? answerChoices.map(x => <button onClick={() => update({ c: x })}>{x}</button>) :
@@ -159,7 +159,7 @@ let render = () => <div>
         <div className="unit" dangerouslySetInnerHTML={{ __html:unit}}/>
         <a className= {hint ? (displayHint?"displayhint" : "existinghint") : "nohint"}
           href="javascript:void(0)"
-          onClick={() => update(last(state.problems).displayHint=true, true)}
+          onClick={() => update(last(state.articles).displayHint=true, true)}
           dangerouslySetInnerHTML={{__html:(displayHint ? hint : (hint?"+":""))}}/>
       </label>
     }</form>}
