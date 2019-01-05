@@ -69,6 +69,15 @@ let levels = [
     correctAnswer: x + 1,
     hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter talet på tallinjen.`,
   })),
+  introMsg: {
+    type: "message",
+    questionText: 'Hej! Nu får du några frågor på nivå 2.',
+  },
+  incorrectMsgAfter: 2,
+  incorrectMsg: {
+    type: "message",
+    questionText: 'Hej! Du har svårigheter på nivå 2. Läs på i boken :-)',
+  }
 },{
   levelName: 3,
   moveOn: 2,
@@ -77,14 +86,21 @@ let levels = [
     correctAnswer: x * 2,
     unit: "cm<sup>2</sup>",
   })),
+  introMsg: {
+    type: "message",
+    questionText: 'Hej! Nu får du några frågor på nivå 3.',
+  },
+  incorrectMsgAfter: 3,
+  incorrectMsg: {
+    type: "message",
+    questionText: 'Hej! Du har svårigheter på nivå 3. Läs på i boken :-)',
+  }
 },{
   levelName: "V",
   moveOn: 1,
   p: [{
     type: "message",
-    questionText: '<iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
-    answerChoices: [""],
-    correctAnswer: "",
+    questionText: 'Hej!<iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
   }]
 },{
   levelName: 4,
@@ -108,7 +124,7 @@ let save = () => localStorage.setItem("state", JSON.stringify(state))
 let update = patch => (Object.assign(state, patch), save())
 
 let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
-  articles: [copy(pick(levels[0].p))],
+  articles: [copy(pick(levels[0].p))], //tar inte med allt som behövs!!
   current: 0,
   max: 0,
   win: 0,
@@ -124,14 +140,31 @@ let answer = () => {
   if (last(state.articles).b == last(state.articles).correctAnswer)
   {waittime = 500;} else {waittime = 2000;}
   setTimeout(() => {
-    if (state.articles.length >= last(state.articles).moveOn && state.articles.slice(state.articles.length - last(state.articles).moveOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.levelName == last(state.articles).levelName))
+    if (state.articles.length >= last(state.articles).moveOn && state.articles.slice(state.articles.length - last(state.articles).moveOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.level == last(state.articles).level))
       state.current++, state.max = Math.max(state.max, state.current), save()
     if (levels[state.current]) {
+      if (last(state.articles).level != state.current) {
+        // ny nivå
+        if (levels[state.current].introMsg) {
+          //det finns ett introMsg
+          
+          state.articles.push(levels[state.current].introMsg)
+        }
+      } else {
+        // inte ny nivå
+        if (state.articles.length >= last(state.articles).incorrectMsgAfter && state.articles.slice(state.articles.length - last(state.articles).incorrectMsgAfter).every(x => x.b != x.correctAnswer && x.level == last(state.articles).level)) {
+        // visa incorrectMsg om incorrectMsgAfter fel i rad
+          state.articles.push(levels[state.current].incorrectMsg)
+        }
+      }
       let temp;
       do {
         temp = copy(pick(levels[state.current].p))
         temp.moveOn = levels[state.current].moveOn
         temp.levelName = levels[state.current].levelName
+        temp.incorrectMsgAfter = levels[state.current].incorrectMsgAfter
+        temp.level = state.current
+        if (!temp.correctAnswer) {temp.correctAnswer = ""}
       } while (temp.questionText === last(state.articles).questionText)
       state.articles.push(temp)
       save()
@@ -171,7 +204,7 @@ let render = () => <div>
     ></div>}
     {i == state.articles.length - 1 && !state.win && !wait && <form
       onSubmit={event => (event.preventDefault(), answer())}
-    >{type == "message" ? answerChoices.map(x => <button onClick={() => update({ c: x })}>→</button>) :
+    >{type == "message" ? <button onClick={() => update({ c: "" })}>→</button> :
       type == "choice" ? answerChoices.map(x => <button onClick={() => update({ c: x })}>{x}</button>) :
       // default type
       <label><input
