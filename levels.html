@@ -46,51 +46,69 @@ let rand = x => Math.floor(Math.random() * x)
 let fact = x => x == 0 ? 1 : x * fact(x - 1)
 let list = x => Object.keys(x).filter(y => x[y])
 
-let levels = [ p: [{
+let levels = [
+{
   levelName: 1,
-  type: "choice",
-  questionText: "Vilket bokstaw kommer först?",
-  answerChoices: ["a", "b", "c"],
-  correctAnswer: "a",
   moveOn: 1,
+  p: [{
+    type: "choice",
+    questionText: "Vilket bokstaw kommer först?",
+    answerChoices: ["a", "b", "c"],
+    correctAnswer: "a",
+  },{
+    type: "choice",
+    questionText: "Vilket bokstawwww kommer sist?",
+    answerChoices: ["a", "b", "c", "d"],
+    correctAnswer: "d",
+  }],
 },{
-  levelName: 1,
-  type: "choice",
-  questionText: "Vilket bokstawwww kommer sist?",
-  answerChoices: ["a", "b", "c", "d"],
-  correctAnswer: "d",
-  moveOn: 1,
-}
-], p: iota(7).map(x => ({
-  levelName: 2, questionText: `<div>Vad är ${x} + 1?</div>`, correctAnswer: x + 1,  moveOn: 2, displayHint: false, hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter talet på tallinjen.`,
-})), p: iota(10).map(x => ({
-  levelName: 3, questionText: `Vad är ${x} cm &middot; 2 cm?`, correctAnswer: x * 2, moveOn: 2, unit: "cm<sup>2</sup>",
-})), p: iota(10).map(x => ({
+  levelName: 2,
+  moveOn: 2,
+  p: iota(7).map(x => ({
+    questionText: `<div>Vad är ${x} + 1?</div>`,
+    correctAnswer: x + 1,
+    hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter talet på tallinjen.`,
+  })),
+},{
+  levelName: 3,
+  moveOn: 2,
+  p: iota(10).map(x => ({
+    questionText: `Vad är ${x} cm &middot; 2 cm?`,
+    correctAnswer: x * 2,
+    unit: "cm<sup>2</sup>",
+  })),
+},{
   levelName: "V",
-  type: "message",
-  questionText: '<iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
-  answerChoices: [""],
-  correctAnswer: "",
   moveOn: 1,
-})), iota(10).map(x => ({
-  levelName: 4, questionText: `Vad är ${x}<sup>2</sup>?`, correctAnswer: x * x, moveOn: 2, hint: `En liten hjälptext.`,
-})), iota(5).map(x => ({
-  levelName: 5, questionText: `Hur många sätt finns det om det går att räkna ut med formeln ${x}! ?`, correctAnswer: fact(x), moveOn: 2, unit: "olika sätt", hint: `En lite större hjälptext kombinerat med en enhet som i detta fallet är olika sätt...`,
-}))]
-
-let  winMsg = [[{
-  levelName: 1,
-  type: "message",
-  questionText: "Grattis! Du har klarat alla nivåer!",
-  answerChoices: [""],
-  correctAnswer: "",
-}]]
+  p: [{
+    type: "message",
+    questionText: '<iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+    answerChoices: [""],
+    correctAnswer: "",
+  }]
+},{
+  levelName: 4,
+  moveOn: 2,
+  p: iota(10).map(x => ({
+    questionText: `Vad är ${x}<sup>2</sup>?`,
+    correctAnswer: x * x,
+    hint: `En liten hjälptext.`,
+}))
+}, {
+  levelName: 5,
+  moveOn: 2,
+  p: iota(5).map(x => ({
+    questionText: `Hur många sätt finns det om det går att räkna ut med formeln ${x}! ?`,
+    correctAnswer: fact(x),
+    unit: "olika sätt",
+    hint: `En lite större hjälptext kombinerat med en enhet som i detta fallet är olika sätt...`,
+}))}]
 
 let save = () => localStorage.setItem("state", JSON.stringify(state))
 let update = patch => (Object.assign(state, patch), save())
 
 let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
-  articles: [copy(pick(levels[0]))],
+  articles: [copy(pick(levels[0].p))],
   current: 0,
   max: 0,
   win: 0,
@@ -110,13 +128,22 @@ let answer = () => {
       state.current++, state.max = Math.max(state.max, state.current), save()
     if (levels[state.current]) {
       let temp;
-      do { temp = copy(pick(levels[state.current]))}
-      while (temp.questionText === last(state.articles).questionText)
+      do {
+        temp = copy(pick(levels[state.current].p))
+        temp.moveOn = levels[state.current].moveOn
+        temp.levelName = levels[state.current].levelName
+      } while (temp.questionText === last(state.articles).questionText)
       state.articles.push(temp)
       save()
     } else {
       update({ win: 1 })
-      state.articles.push(copy(winMsg[0][0]))
+      state.articles.push({
+        levelName: 99,
+        type: "message",
+        questionText: "Grattis! Du har klarat alla nivåer!",
+        answerChoices: [""],
+        correctAnswer: "",
+      })
       save()
     }
     setTimeout(() => scroll(0, 999999999), 20)
@@ -135,7 +162,7 @@ let render = () => <div>
         next: x == state.max,
       }).join(" ")}
       onClick={x <= state.max && x != state.current ? () => ( state.current = i, save()) : (state.win ? answer(): null)}
-    ><span><span>{levels[x][0].levelName}</span></span></span>)}
+    ><span><span>{levels[x].levelName}</span></span></span>)}
   </nav>
   <div>{state.articles.map(({ questionText, correctAnswer, b, type, answerChoices, unit, displayHint, hint }, i) => <article key={i} className={type}>
     <div dangerouslySetInnerHTML={{ __html: questionText }}/>
