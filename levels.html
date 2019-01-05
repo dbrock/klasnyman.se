@@ -49,7 +49,7 @@ let list = x => Object.keys(x).filter(y => x[y])
 let levels = [
 {
   levelName: 1,
-  moveOn: 1,
+  nextLevelOn: 1,
   p: [{
     type: "choice",
     questionText: "Vilket bokstaw kommer först?",
@@ -63,48 +63,38 @@ let levels = [
   }],
 },{
   levelName: 2,
-  moveOn: 2,
+  nextLevelOn: 2,
+  introMsg: 'Hej! Nu får du några frågor på nivå 2.',
+  incorrectMsgOn: 2,
+  incorrectMsg: 'Hej! Du har svårigheter på nivå 2. Läs på i boken :-)',
   p: iota(7).map(x => ({
     questionText: `<div>Vad är ${x} + 1?</div>`,
     correctAnswer: x + 1,
     hint: `Du kan också tänka 1 + ${x} eller tänka ett steg efter talet på tallinjen.`,
   })),
-  introMsg: {
-    type: "message",
-    questionText: 'Hej! Nu får du några frågor på nivå 2.',
-  },
-  incorrectMsgAfter: 2,
-  incorrectMsg: {
-    type: "message",
-    questionText: 'Hej! Du har svårigheter på nivå 2. Läs på i boken :-)',
-  }
 },{
   levelName: 3,
-  moveOn: 2,
+  nextLevelOn: 2,
+  introMsg: 'Hej! Nu får du några frågor på nivå 3.',
+  incorrectMsgOn: 3,
+  incorrectMsg: 'Hej! Du har svårigheter på nivå 3. Läs på i boken :-)',
   p: iota(10).map(x => ({
     questionText: `Vad är ${x} cm &middot; 2 cm?`,
     correctAnswer: x * 2,
     unit: "cm<sup>2</sup>",
   })),
-  introMsg: {
-    type: "message",
-    questionText: 'Hej! Nu får du några frågor på nivå 3.',
-  },
-  incorrectMsgAfter: 3,
-  incorrectMsg: {
-    type: "message",
-    questionText: 'Hej! Du har svårigheter på nivå 3. Läs på i boken :-)',
-  }
 },{
   levelName: "V",
-  moveOn: 1,
+  nextLevelOn: 1,
   p: [{
     type: "message",
     questionText: 'Hej!<iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
   }]
 },{
   levelName: 4,
-  moveOn: 2,
+  nextLevelOn: 2,
+  incorrectMsgOn: 4,
+  incorrectMsg: 'Titta på klippet ska du se att det går bättre:<br><iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
   p: iota(10).map(x => ({
     questionText: `Vad är ${x}<sup>2</sup>?`,
     correctAnswer: x * x,
@@ -112,7 +102,7 @@ let levels = [
 }))
 }, {
   levelName: 5,
-  moveOn: 2,
+  nextLevelOn: 2,
   p: iota(5).map(x => ({
     questionText: `Hur många sätt finns det om det går att räkna ut med formeln ${x}! ?`,
     correctAnswer: fact(x),
@@ -140,41 +130,44 @@ let answer = () => {
   if (last(state.articles).b == last(state.articles).correctAnswer)
   {waittime = 500;} else {waittime = 2000;}
   setTimeout(() => {
-    if (state.articles.length >= last(state.articles).moveOn && state.articles.slice(state.articles.length - last(state.articles).moveOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.level == last(state.articles).level))
+    if (state.articles.length >= last(state.articles).nextLevelOn && state.articles.slice(state.articles.length - last(state.articles).nextLevelOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.level == last(state.articles).level))
       state.current++, state.max = Math.max(state.max, state.current), save()
     if (levels[state.current]) {
       if (last(state.articles).level != state.current) {
         // ny nivå
         if (levels[state.current].introMsg) {
           //det finns ett introMsg
-          
-          state.articles.push(levels[state.current].introMsg)
+          state.articles.push({})
+          last(state.articles).type = "message"
+          last(state.articles).questionText = levels[state.current].introMsg
         }
       } else {
         // inte ny nivå
-        if (state.articles.length >= last(state.articles).incorrectMsgAfter && state.articles.slice(state.articles.length - last(state.articles).incorrectMsgAfter).every(x => x.b != x.correctAnswer && x.level == last(state.articles).level)) {
-        // visa incorrectMsg om incorrectMsgAfter fel i rad
-          state.articles.push(levels[state.current].incorrectMsg)
+        if (state.articles.length >= last(state.articles).incorrectMsgOn && state.articles.slice(state.articles.length - last(state.articles).incorrectMsgOn).every(x => x.b != x.correctAnswer && x.level == last(state.articles).level)) {
+        // visa incorrectMsg om incorrectMsgOn fel i rad
+          state.articles.push({})
+          last(state.articles).type = "message"
+          last(state.articles).questionText = levels[state.current].incorrectMsg
         }
       }
+      //slumpa ny fråga
       let temp;
       do {
         temp = copy(pick(levels[state.current].p))
-        temp.moveOn = levels[state.current].moveOn
+        temp.nextLevelOn = levels[state.current].nextLevelOn
         temp.levelName = levels[state.current].levelName
-        temp.incorrectMsgAfter = levels[state.current].incorrectMsgAfter
+        temp.incorrectMsgOn = levels[state.current].incorrectMsgOn
         temp.level = state.current
         if (!temp.correctAnswer) {temp.correctAnswer = ""}
       } while (temp.questionText === last(state.articles).questionText)
       state.articles.push(temp)
       save()
     } else {
+      //det finns inga fler nivåer.
       update({ win: 1 })
       state.articles.push({
-        levelName: 99,
         type: "message",
         questionText: "Grattis! Du har klarat alla nivåer!",
-        answerChoices: [""],
         correctAnswer: "",
       })
       save()
