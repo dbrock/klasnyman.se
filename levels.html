@@ -114,11 +114,24 @@ let save = () => localStorage.setItem("state", JSON.stringify(state))
 let update = patch => (Object.assign(state, patch), save())
 
 let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
-  articles: [copy(pick(levels[0].p))], //tar inte med allt som behövs!!
+  articles: "ny",
+//  [copy(pick(levels[0].p))], //tar inte med allt som behövs!!
+//  articles[0].nextLevelOn = levels[0].nextLevelOn,
+//  articles[0].levelName = levels[0].levelName,
+//  articles[0].incorrectMsgOn = levels[0].incorrectMsgOn,
+//  articles[0].level: 0,
   current: 0,
   max: 0,
   win: 0,
   c: "",
+}
+
+if (state.articles == "ny") {
+  state.articles = [copy(pick(levels[0].p))],
+  state.articles[0].nextLevelOn = levels[0].nextLevelOn,
+  state.articles[0].levelName = levels[0].levelName,
+  state.articles[0].incorrectMsgOn = levels[0].incorrectMsgOn,
+  state.articles[0].level = 0
 }
 
 let wait, waittime = 0
