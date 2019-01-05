@@ -95,7 +95,7 @@ let levels = [
   nextLevelOn: 2,
   incorrectMsgOn: 4,
   incorrectMsg: 'Titta på klippet ska du se att det går bättre:<br><iframe src="https://www.youtube.com/embed/Mfk_L4Nx2ZI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
-  p: iota(10).map(x => ({
+  p: iota(3).map(x => ({
     msg: `Vad är ${x}<sup>2</sup>?`,
     correctAnswer: x * x,
     hint: `En liten hjälptext.`,
@@ -115,11 +115,6 @@ let update = patch => (Object.assign(state, patch), save())
 
 let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
   articles: "ny",
-//  [copy(pick(levels[0].p))], //tar inte med allt som behövs!!
-//  articles[0].nextLevelOn = levels[0].nextLevelOn,
-//  articles[0].levelName = levels[0].levelName,
-//  articles[0].incorrectMsgOn = levels[0].incorrectMsgOn,
-//  articles[0].level: 0,
   current: 0,
   max: 0,
   win: 0,
@@ -132,6 +127,7 @@ if (state.articles == "ny") {
   state.articles[0].levelName = levels[0].levelName,
   state.articles[0].incorrectMsgOn = levels[0].incorrectMsgOn,
   state.articles[0].level = 0
+  save()
 }
 
 let wait, waittime = 0
@@ -171,7 +167,7 @@ let answer = () => {
         temp.levelName = levels[state.current].levelName
         temp.incorrectMsgOn = levels[state.current].incorrectMsgOn
         temp.level = state.current
-        if (!temp.correctAnswer) {temp.correctAnswer = ""}
+        if (temp.correctAnswer === undefined) {temp.correctAnswer = ""}
       } while (temp.msg === last(state.articles).msg)
       state.articles.push(temp)
       save()
