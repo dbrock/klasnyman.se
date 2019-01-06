@@ -1,3 +1,12 @@
+<!--
+Idéer:
+Visa hints i flödet?
+Bilder/Koordinatsystem/Tallinjer
+
+Buggar:
+Problem att visa hints i safari
+
+-->
 <!doctype html>
 <meta charset=utf-8>
 <meta name=viewport content=width=device-width>
@@ -58,7 +67,8 @@ let levels = [
   },{
     type: "choice",
     msg: "Vilket bokstawwww kommer sist?",
-    answerChoices: ["a a", "b b", "c c", "d d"],
+    answerChoices: ["a a", "a b", "a c", "d d"],
+    randomizeChoices: true,
     correctAnswer: "d d",
   }],
 },{
@@ -130,6 +140,10 @@ if (state.articles == "ny") {
   save()
 }
 
+function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [array[i], array[j]] = [array[j], array[i]];}}
+
 let wait, waittime = 0
 let answer = () => {
   wait = 1
@@ -169,6 +183,7 @@ let answer = () => {
         temp.level = state.current
         if (temp.correctAnswer === undefined) {temp.correctAnswer = ""}
       } while (temp.msg === last(state.articles).msg)
+      temp.randomizeChoices ? shuffleArray(temp.answerChoices) : null
       state.articles.push(temp)
       save()
     } else {
