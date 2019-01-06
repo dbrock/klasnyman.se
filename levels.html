@@ -2,10 +2,10 @@
 Idéer:
 Visa hints i flödet?
 Bilder/Koordinatsystem/Tallinjer
+Onödigt att ha med correctAnswer i answerChoices?
 
 Buggar:
 Problem att visa hints i safari
-
 -->
 <!doctype html>
 <meta charset=utf-8>
@@ -60,12 +60,10 @@ let levels = [
   levelName: 1,
   nextLevelOn: 1,
   p: [{
-    type: "choice",
     msg: "Vilket bokstaw kommer först?",
     answerChoices: ["a", "b", "c"],
     correctAnswer: "a",
   },{
-    type: "choice",
     msg: "Vilket bokstawwww kommer sist?",
     answerChoices: ["a a", "a b", "a c", "d d"],
     randomizeChoices: true,
@@ -137,6 +135,12 @@ if (state.articles == "ny") {
   state.articles[0].levelName = levels[0].levelName,
   state.articles[0].incorrectMsgOn = levels[0].incorrectMsgOn,
   state.articles[0].level = 0
+  if (state.articles[0].correctAnswer === undefined) {
+     state.articles[0].type = "message"
+     state.articles[0].correctAnswer = ""
+   }
+  (state.articles[0].randomizeChoices) ? shuffleArray(state.articles[0].answerChoices) : null;
+  (state.articles[0].answerChoices && state.articles[0].answerChoices.length > 1) ? state.articles[0].type = "choice" : null;
   save()
 }
 
@@ -177,13 +181,19 @@ let answer = () => {
       let temp;
       do {
         temp = copy(pick(levels[state.current].p))
-        temp.nextLevelOn = levels[state.current].nextLevelOn
-        temp.levelName = levels[state.current].levelName
-        temp.incorrectMsgOn = levels[state.current].incorrectMsgOn
-        temp.level = state.current
-        if (temp.correctAnswer === undefined) {temp.correctAnswer = ""}
       } while (temp.msg === last(state.articles).msg)
-      temp.randomizeChoices ? shuffleArray(temp.answerChoices) : null
+      temp.nextLevelOn = levels[state.current].nextLevelOn
+      temp.levelName = levels[state.current].levelName
+      temp.incorrectMsgOn = levels[state.current].incorrectMsgOn
+      temp.level = state.current
+
+      if (temp.correctAnswer === undefined) {
+         temp.type = "message"
+         temp.correctAnswer = ""
+       }
+      (temp.randomizeChoices) ? shuffleArray(temp.answerChoices) : null;
+      (temp.answerChoices && temp.answerChoices.length > 1) ? temp.type = "choice" : null;
+
       state.articles.push(temp)
       save()
     } else {
