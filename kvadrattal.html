@@ -125,10 +125,10 @@ let levels = [
 }]
 
 
-let save = () => localStorage.setItem("state", JSON.stringify(state))
+let save = () => localStorage.setItem("stateKv", JSON.stringify(state))
 let update = patch => (Object.assign(state, patch), save())
 
-let state = localStorage.getItem("state") ? JSON.parse(localStorage.getItem("state")) : {
+let state = localStorage.getItem("stateKv") ? JSON.parse(localStorage.getItem("stateKv")) : {
   articles: "ny",
   current: 0,
   max: 0,
