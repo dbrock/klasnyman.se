@@ -47,28 +47,6 @@ let fact = x => x == 0 ? 1 : x * fact(x - 1)
 let list = x => Object.keys(x).filter(y => x[y])
 let remove1 = x => x == 1 ? "" : x
 
-let namnk = [["Anna","Eva","Maria","Karin","Kristina","Lena","Sara","Kerstin","Emma","Ingrid"],
-["Marie","Malin","Jenny","Birgitta","Annika","Linda","Monica","Hanna","Susanne","Elin"],
-["Inger","Johanna","Sofia","Ulla","Carina","Elisabeth","Julia","Katarina","Linnéa","Emelie"],
-["Ida","Helena","Åsa","Anette","Camilla","Gunilla","Anita","Marianne","Margareta","Sandra"],
-["Anneli","Ann","Amanda","Therese","Josefin","Cecilia","Jessica","Barbro","Helen","Maja"],
-["Siv","Lisa","Caroline","Frida","Matilda","Ulrika","Elsa","Alice","Gun","Madeleine"],
-["Rebecca","Berit","Agneta","Sofie","Ebba","Klara","Pia","Isabelle","Lina","Britt"],
-["Yvonne","Louise","Mona","Wilma","Astrid","Ella","Moa","Ann-Christin","Erika","Ellen"],
-["Nathalie","Ann-Marie","Alexandra","Viktoria","Emilia","Sonja","Felicia","Alva","Agnes","Olivia"],
-["Britt-Marie","Gunnel","Rut","Birgit","Pernilla","Charlotte","Lisbeth","Lovisa","Inga","Irene"]]
-
-let namnm = [["Lars","Mikael","Anders","Johan","Erik","Per","Karl","Peter","Jan","Thomas"],
-["Daniel","Fredrik","Hans","Andreas","Stefan","Mats","Bengt","Marcus","Magnus","Mattias"],
-["Jonas","Bo","Niklas","Mohamed","Martin","Oskar","Nils","Alexander","Sven","Björn"],
-["Leif","Patrik","Viktor","Ulf","Henrik","David","Christer","Joakim","Filip","Emil"],
-["Simon","Christoffer","Kjell","Anton","Tommy","Robert","Gustav","Christian","Rickard","Håkan"],
-["Rolf","Göran","William","Lennart","Lucas","Stig","Robin","Jonathan","Jakob","Sebastian"],
-["John","Adam","Tobias","Elias","Kent","Linus","Axel","Roger","Claes","Oliver"],
-["Jesper","Isak","Hugo","Jörgen","Rasmus","Gunnar","Albin","Jimmy","Kenneth","Max"],
-["Ludvig","Kurt","Åke","Joel","Johnny","Olof","Dennis","Ali","Pontus","Olle"],
-["Josef","Torbjörn","Arne","Kevin","Leo","Samuel","Dan","Liam","Felix","Bertil"]]
-
 function klumpa(array) {
   let ret = array[0];
     for (let i = 1; i<array.length; i++) {
@@ -86,83 +64,66 @@ function randInt(min, max) {
 let levels = [
 {
   levelName: 1,
-  nextLevelOn: 3,
-  p: klumpa(namnm[randInt(0,9)].map(namn2 => klumpa(namnk[randInt(0,9)].map(namn1 => klumpa(iota(5).map(plus => iota(20).map(v => ({
-    msg: `<div>${namn2} är x år.</br>${namn1} är x + ${plus+2} år.</br>Hur gammal är ${namn1} när ${namn2} är ${v+5} år?</div>`,
-    correctAnswer: v+2+plus+5,
-    unit: 'år',
-    hint: `Att ${namn1} är x + ${plus+2} år betyder att ${namn1} är ${plus+2} år äldre än ${namn2}.`,
-  })))))))),
+  nextLevelOn: 5,
+  p: (iota(11).map(x => ({
+    msg: `<div>Hur mycket är ${x} * ${x}?</div>`,
+    correctAnswer: x*x,
+  }))),
 },{
   levelName: 2,
-  nextLevelOn: 3,
-  p: klumpa(namnk[randInt(0,9)].map(namn => klumpa(iota(5).map(plus => iota(20).map(v => ({
-    msg: `<div>Niklas är x år.</br>${namn} är x + ${plus+2} år.</br>Hur gammal är Niklas när ${namn} är ${v+10} år?</div>`,
-    correctAnswer: v+10-plus-2,
-    unit: 'år',
-    hint: `Att ${namn} är x + ${plus+2} år betyder att ${namn} är ${plus+2} år äldre än Niklas.`,
-  })))))),
+  nextLevelOn: 5,
+  p: (iota(11).map(x => ({
+    msg: `<div>Vilket tal gånger sig själv är ${x*x}?</div>`,
+    correctAnswer: x,
+  }))),
 },{
   levelName: 3,
-  nextLevelOn: 2,
-  p: [].concat(...iota(5).map(y => iota(10).map(x => ({
-    msg: `<div>Om x är ${x}.</br>Hur mycket är x + ${y+2} ?</div>`,
-    correctAnswer: x + y + 2,
-  })))),
+  nextLevelOn: 5,
+  p: (iota(5).map(x => ({
+    msg: `<div>Hur mycket är ${x+6} * ${x+6}?</div>`,
+    correctAnswer: (x+6)*(x+6),
+  }))),
 },{
   levelName: 4,
+  nextLevelOn: 5,
+  p: (iota(5).map(x => ({
+    msg: `<div>Vilket tal gånger sig själv är ${(x+6)*(x+6)}?</div>`,
+    correctAnswer: x+6,
+  }))),
+},
+{
+  levelName: 'B1',
   nextLevelOn: 4,
-  p: klumpa([klumpa(iota(8).map(y => iota(8).map(x => ({
-    msg: `<div>Om x är ${x + 1} och y är ${y + 1}.</br>Hur mycket är x + y ?</div>`,
-    correctAnswer: x + y + 2,
-  }))))],
-  [klumpa(iota(8).map(y => iota(15).map(x => ({
-    msg: `<div>Om x är ${x + 10} och y är ${y + 1}.</br>Hur mycket är x - y ?</div>`,
-    correctAnswer: x + 10 - (y + 1),
-  }))))],
-  [klumpa(iota(5).map(y => iota(5).map(x => ({
-    msg: `<div>Om x är ${x + 1} och y är ${y + 1}.</br>Hur mycket är xy ?</div>`,
-    correctAnswer: (x + 1) * (y + 1),
-    hint: 'xy är samma sak som x &middot; y'
-  }))))])
-},{
-  levelName: 5,
-  nextLevelOn: 3,
-  p: klumpa([iota(5).map(n => ({
-    msg: `<div>Vilket uttryck betyder ${n + 1} mer än x?</div>`,
-    answerChoices: [`x + ${n + 1}`, `x - ${n + 1}`, `${n + 1}x`, `x/${n + 1}`, `${n + 1} - x`],
-    randomizeChoices: true,
-    correctAnswer: `x + ${n + 1}`,
-  })),iota(5).map(n => ({
-    msg: `<div>Vilket uttryck betyder ${n + 1} mindre än x?</div>`,
-    answerChoices: [`x + ${n + 1}`, `x - ${n + 1}`, `${n + 1}x`, `x/${n + 1}`, `${n + 1} - x`],
-    randomizeChoices: true,
-    correctAnswer: `x - ${n + 1}`,
-  })),iota(5).map(n => ({
-    msg: `<div>Vilket uttryck betyder ${n + 2} gånger x?</div>`,
-    answerChoices: [`x + ${n + 2}`, `x - ${n + 2}`, `${n + 2}x`, `x/${n + 2}`, `${n + 2} - x`],
-    randomizeChoices: true,
-    correctAnswer: `${n + 2}x`,
-  }))])
-},{
-  levelName: 6,
-  nextLevelOn: 3,
-  p: klumpa(['x','a','b','y'].map(varnamn => klumpa(iota(5).map(skillnad => iota(10).map(hund => ({
-    msg: `<div>En hund är ${hund+7} år och en katt är ${hund+7-skillnad-1} år.</br>Vi kallar hundens ålder för ${varnamn}.</br>Vilket uttryck beskriver kattens ålder?</div>`,
-    answerChoices: [`${varnamn} + 5 `, `${varnamn} - ${skillnad + 1}`, `${varnamn} - ${skillnad + 2}`],
-    randomizeChoices: true,
-    correctAnswer: `${varnamn} - ${skillnad + 1}`,
-  })))))),
-},{
-  levelName: 7,
-  nextLevelOn: 3,
-  p: klumpa(iota(5).map(x1 => klumpa(iota(5).map(x2 => iota(10).map(c => ({
-    msg: `<div>Förenkla uttrycket ${remove1(x1+1)}x + ${c+1} + ${remove1(x2+1)}x</div>`,
-    answerChoices: [`${x1+x2+2}x + ${c+1}`, `${x1+x2}x + ${c+1}`, `${x1+x2+2}x + ${c+1+x1}`, `${x1+x2+2}x + ${c+1+x2+1}`, `${x1+1}x + ${x2 + c+2}`],
-    randomizeChoices: true,
-    correctAnswer: `${x1+x2+2}x + ${c+1}`,
-  })))))),
+  p: (iota(3).map(x => ({
+    msg: `<div>Hur mycket är ${x+10} * ${x+10}?</div>`,
+    correctAnswer: (x+10)*(x+10),
+  }))),
+},
+{
+  levelName: 'B2',
+  nextLevelOn: 10,
+  p: (iota(13).map(x => ({
+    msg: `<div>Hur mycket är ${x} * ${x}?</div>`,
+    correctAnswer: x*x,
+  }))),
+},
+{
+  levelName: 'B3',
+  nextLevelOn: 5,
+  p: (iota(11).map(x => ({
+    msg: `<div>Hur mycket är ${(x/10).toString().replace(".",",")} * ${x}?</div>`,
+    correctAnswer: x*x/10,
+  }))),
+},
+{
+  levelName: 'B4',
+  nextLevelOn: 5,
+  p: (iota(11).map(x => ({
+    msg: `<div>Hur mycket är ${(x/10).toString().replace(".",",")} * ${(x/10).toString().replace(".",",")}?</div>`,
+    correctAnswer: x*x/100,
+  }))),
 }]
+
 
 let save = () => localStorage.setItem("state", JSON.stringify(state))
 let update = patch => (Object.assign(state, patch), save())
@@ -199,8 +160,10 @@ let answer = () => {
   wait = 1
   if (state.win == true) {state.win=false}
   last(state.articles).b = state.c, save()
+  //replace , with .
+  last(state.articles).b = last(state.articles).b.replace(",",".")
   update({ c: "" })
-  if (last(state.articles).b == last(state.articles).correctAnswer)
+  if (last(state.articles).b == last(state.articles).correctAnswer )
   {waittime = 500;} else {waittime = 2000;}
   setTimeout(() => {
     if (state.articles.length >= last(state.articles).nextLevelOn && state.articles.slice(state.articles.length - last(state.articles).nextLevelOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.level == last(state.articles).level))
@@ -273,7 +236,7 @@ let render = () => <div>
   <div>{state.articles.map(({ msg, correctAnswer, b, type, answerChoices, unit, displayHint, hint }, i) => <article key={i} className={type}>
     <div dangerouslySetInnerHTML={{ __html: msg }}/>
     {b != null && <div
-      className={correctAnswer == b ? "right" : "wrong"} dangerouslySetInnerHTML={{__html:(correctAnswer == b ? correctAnswer + (unit ? ` ${unit}`: "") : (`<span><span>${b} ` + (unit ? (`${unit} `): "") + `→ </span>${correctAnswer}` + (unit ? (` ${unit}`):"") + "</span>"))}}
+      className={correctAnswer == b ? "right" : "wrong"} dangerouslySetInnerHTML={{__html:(correctAnswer == b ? correctAnswer.toString().replace(".",",") + (unit ? ` ${unit}`: "") : (`<span><span>${b.toString().replace(".",",")} ` + (unit ? (`${unit} `): "") + `→ </span>${correctAnswer.toString().replace(".",",")}` + (unit ? (` ${unit}`):"") + "</span>"))}}
     ></div>}
     {i == state.articles.length - 1 && !state.win && !wait && <form
       onSubmit={event => (event.preventDefault(), answer())}
@@ -282,8 +245,8 @@ let render = () => <div>
       // default type
       <label><input
         autoComplete="off"
-        type="tel"
-        pattern="[0-9]*"
+//        type="tel"
+//        pattern="[0-9]*"
         onChange={event => update({ c: event.target.value })}
         onBlur={event => (event.relatedTarget ? (event.target).focus() : answer())}
         value={state.c}
