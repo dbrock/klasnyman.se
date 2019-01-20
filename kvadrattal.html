@@ -110,7 +110,7 @@ let levels = [
 {
   levelName: 'B3',
   nextLevelOn: 5,
-  p: (iota(11).map(x => ({
+  p: (iota(10).map(x => ({
     msg: `<div>Hur mycket är ${(x/10).toString().replace(".",",")} * ${x}?</div>`,
     correctAnswer: x*x/10,
   }))),
@@ -118,7 +118,7 @@ let levels = [
 {
   levelName: 'B4',
   nextLevelOn: 5,
-  p: (iota(11).map(x => ({
+  p: (iota(10).map(x => ({
     msg: `<div>Hur mycket är ${(x/10).toString().replace(".",",")} * ${(x/10).toString().replace(".",",")}?</div>`,
     correctAnswer: x*x/100,
   }))),
