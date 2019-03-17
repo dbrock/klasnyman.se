@@ -1,0 +1,261 @@
+<!doctype html>
+<meta charset=utf-8>
+<meta name=viewport content=width=device-width>
+<link rel=stylesheet type=text/css href=levels.css>
+<div id=root></div>
+<script src=babel.min.js></script>
+<script src=react.development.js></script>
+<script src=react-dom.development.js></script>
+<script type=text/babel>
+let copy = x => JSON.parse(JSON.stringify(x))
+let iota = x => [...Array(x).keys()]
+let last = x => x[x.length - 1]
+let pick = x => x[rand(x.length)]
+let rand = x => Math.floor(Math.random() * x)
+let fact = x => x == 0 ? 1 : x * fact(x - 1)
+let list = x => Object.keys(x).filter(y => x[y])
+let remove1 = x => x == 1 ? "" : x
+
+function klumpa(array) {
+  let ret = array[0];
+    for (let i = 1; i<array.length; i++) {
+      ret = ret.concat(array[i])
+    }
+  return ret;
+}
+
+function randInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+let levels = [
+{
+  levelName: '1',
+  nextLevelOn: 6,
+  p: klumpa([klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/10).toString().replace(".",",")} * ${((y+15)/10).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/10)*((y+15)/10)).toFixed(2).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/100)*((y+15)/10)).toFixed(3).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/10)).toFixed(1).toString().replace(".",",")],
+      randomizeChoices: true,
+    })))),klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/10).toString().replace(".",",")} * ${((y+15)/10).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/10)*((y+15)/10)).toFixed(2).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/100)*((y+15)/10)).toFixed(3).toString().replace(".",","),
+                      (((x+15)/1000)*((y+15)/10)).toFixed(4).toString().replace(".",",")],
+      randomizeChoices: true,
+    })))),klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/10).toString().replace(".",",")} * ${((y+15)/10).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/10)*((y+15)/10)).toFixed(2).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/10)).toFixed(1).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/1)).toFixed(0).toString().replace(".",",")],
+      randomizeChoices: true,
+    }))))]
+  ),
+},{
+  levelName: '2',
+  nextLevelOn: 6,
+  p: klumpa([klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/1).toString().replace(".",",")} * ${((y+15)/10).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/1)*((y+15)/10)).toFixed(1).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/100)*((y+15)/10)).toFixed(3).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)*10)).toFixed(0).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/10)).toFixed(1).toString().replace(".",",")],
+      randomizeChoices: true,
+    })))),klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/10).toString().replace(".",",")} * ${((y+15)/10).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/10)*((y+15)/10)).toFixed(2).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/100)*((y+15)/10)).toFixed(3).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)*10)).toFixed(0).toString().replace(".",","),
+                      (((x+15)/1000)*((y+15)/10)).toFixed(4).toString().replace(".",",")],
+      randomizeChoices: true,
+    })))),klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/1).toString().replace(".",",")} * ${((y+15)/1).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/1)*((y+15)/1)).toFixed(0).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/10)).toFixed(1).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)*10)).toFixed(0).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/1)).toFixed(0).toString().replace(".",",")],
+      randomizeChoices: true,
+    }))))]
+  ),
+},{
+  levelName: '3',
+  nextLevelOn: 6,
+  p: klumpa([klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/100).toString().replace(".",",")} * ${((y+15)/10).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/100)*((y+15)/10)).toFixed(3).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/100)*((y+15)/10)).toFixed(3).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/10)).toFixed(1).toString().replace(".",",")],
+      randomizeChoices: true,
+    })))),klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/100).toString().replace(".",",")} * ${((y+15)/10).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/100)*((y+15)/10)).toFixed(3).toString(),
+      answerChoices: [(((x+15)/10)*((y+15)/10)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/100)*((y+15)/10)).toFixed(3).toString().replace(".",","),
+                      (((x+15)/1000)*((y+15)/10)).toFixed(4).toString().replace(".",",")],
+      randomizeChoices: true,
+    })))),klumpa(iota(20).map(y => iota(20).map(x => ({
+      msg: `<div>Hur mycket är ${((x+15)/100).toString().replace(".",",")} * ${((y+15)/1).toString().replace(".",",")}?</div>`,
+      correctAnswer: (((x+15)/100)*((y+15)/1)).toFixed(2).toString(),
+      answerChoices: [(((x+15)/100)*((y+15)/1)).toFixed(2).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/10)).toFixed(1).toString().replace(".",","),
+                      (((x+15)/1)*((y+15)/1)).toFixed(0).toString().replace(".",",")],
+      randomizeChoices: true,
+    }))))]
+  ),
+
+}
+]
+
+
+let save = () => localStorage.setItem("stateKv", JSON.stringify(state))
+let update = patch => (Object.assign(state, patch), save())
+
+let state = localStorage.getItem("stateKv") ? JSON.parse(localStorage.getItem("stateKv")) : {
+  articles: "ny",
+  current: 0,
+  max: 0,
+  win: 0,
+  c: "",
+}
+
+if (state.articles == "ny") {
+  state.articles = [copy(pick(levels[0].p))],
+  state.articles[0].nextLevelOn = levels[0].nextLevelOn,
+  state.articles[0].levelName = levels[0].levelName,
+  state.articles[0].incorrectMsgOn = levels[0].incorrectMsgOn,
+  state.articles[0].level = 0
+  if (state.articles[0].correctAnswer === undefined) {
+     state.articles[0].type = "message"
+     state.articles[0].correctAnswer = ""
+   }
+  (state.articles[0].randomizeChoices) ? shuffleArray(state.articles[0].answerChoices) : null;
+  (state.articles[0].answerChoices && state.articles[0].answerChoices.length > 1) ? state.articles[0].type = "choice" : null;
+  save()
+}
+
+function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [array[i], array[j]] = [array[j], array[i]];}}
+
+let wait, waittime = 0
+let answer = () => {
+  wait = 1
+  if (state.win == true) {state.win=false}
+  last(state.articles).b = state.c, save()
+  //replace , with .
+  last(state.articles).b = last(state.articles).b.toString().replace(",",".")
+  update({ c: "" })
+  if (last(state.articles).b == last(state.articles).correctAnswer )
+  {waittime = 500;} else {waittime = 2000;}
+  setTimeout(() => {
+    if (state.articles.length >= last(state.articles).nextLevelOn && state.articles.slice(state.articles.length - last(state.articles).nextLevelOn).every(x => x.b == x.correctAnswer && !x.displayHint && x.level == last(state.articles).level))
+      state.current++, state.max = Math.max(state.max, state.current), save()
+    if (levels[state.current]) {
+      if (last(state.articles).level != state.current) {
+        // ny nivå
+        if (levels[state.current].introMsg) {
+          //det finns ett introMsg
+          state.articles.push({})
+          last(state.articles).type = "message"
+          last(state.articles).msg = levels[state.current].introMsg
+        }
+      } else {
+        // inte ny nivå
+        if (state.articles.length >= last(state.articles).incorrectMsgOn && state.articles.slice(state.articles.length - last(state.articles).incorrectMsgOn).every(x => x.b != x.correctAnswer && x.level == last(state.articles).level)) {
+        // visa incorrectMsg om incorrectMsgOn fel i rad
+          state.articles.push({})
+          last(state.articles).type = "message"
+          last(state.articles).msg = levels[state.current].incorrectMsg
+        }
+      }
+      //slumpa ny fråga
+      let temp;
+      do {
+        temp = copy(pick(levels[state.current].p))
+      } while (temp.msg === last(state.articles).msg)
+      temp.nextLevelOn = levels[state.current].nextLevelOn
+      temp.levelName = levels[state.current].levelName
+      temp.incorrectMsgOn = levels[state.current].incorrectMsgOn
+      temp.level = state.current
+
+      if (temp.correctAnswer === undefined) {
+         temp.type = "message"
+         temp.correctAnswer = ""
+       }
+      (temp.randomizeChoices) ? shuffleArray(temp.answerChoices) : null;
+      (temp.answerChoices && temp.answerChoices.length > 1) ? temp.type = "choice" : null;
+
+      state.articles.push(temp)
+      save()
+    } else {
+      //det finns inga fler nivåer.
+      update({ win: 1 })
+      state.articles.push({
+        type: "message",
+        msg: "Grattis! Du har klarat alla nivåer!",
+        correctAnswer: "",
+      })
+      save()
+    }
+    setTimeout(() => scroll(0, 999999999), 20)
+    wait = 0
+  }, waittime)
+}
+
+let render = () => <div>
+  <nav>
+    <div className="reload" onClick={() => (localStorage.clear(), location.reload())}>⟳</div>
+    {iota(levels.length).map((x, i) => <span
+      key={x}
+      className={list({
+        current: x == state.current,
+        done: x < state.max,
+        next: x == state.max,
+      }).join(" ")}
+      onClick={x <= state.max && x != state.current ? () => ( state.current = i, save()) : (state.win ? answer(): null)}
+    ><span><span>{levels[x].levelName}</span></span></span>)}
+  </nav>
+  <div>{state.articles.map(({ msg, correctAnswer, b, type, answerChoices, unit, displayHint, hint }, i) => <article key={i} className={type}>
+    <div dangerouslySetInnerHTML={{ __html: msg }}/>
+    {b != null && <div
+      className={correctAnswer == b ? "right" : "wrong"} dangerouslySetInnerHTML={{__html:(correctAnswer == b ? correctAnswer.toString().replace(".",",") + (unit ? ` ${unit}`: "") : (`<span><span>${b.toString().replace(".",",")} ` + (unit ? (`${unit} `): "") + `→ </span>${correctAnswer.toString().replace(".",",")}` + (unit ? (` ${unit}`):"") + "</span>"))}}
+    ></div>}
+    {i == state.articles.length - 1 && !state.win && !wait && <form
+      onSubmit={event => (event.preventDefault(), answer())}
+    >{type == "message" ? <button key={i + "btn"} onClick={() => update({ c: "" })}>→</button> :
+      type == "choice" ? answerChoices.map(x => <button key={i + "btn" + x} onClick={() => update({ c: x })}>{x}</button>) :
+      // default type
+      <label><input
+        autoComplete="off"
+//        type="tel"
+//        pattern="[0-9]*"
+        onChange={event => update({ c: event.target.value })}
+        onBlur={event => (event.relatedTarget ? (event.target).focus() : answer())}
+        value={state.c}
+        autoFocus={true}
+        style={{ outline: "none" }}/>
+        <div className="unit" dangerouslySetInnerHTML={{ __html:unit}}/>
+        <a className= {hint ? (displayHint?"displayhint" : "existinghint") : "nohint"}
+          href="javascript:void(0)"
+          onClick={() => update(last(state.articles).displayHint=true, true)}
+          dangerouslySetInnerHTML={{__html:(displayHint ? hint : (hint?"+":""))}}/>
+      </label>
+    }</form>}
+  </article>)}</div>
+</div>
+
+requestAnimationFrame(function loop() {
+  ReactDOM.render(render(), root)
+  requestAnimationFrame(loop)
+})
+</script>
