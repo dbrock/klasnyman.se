@@ -44,7 +44,7 @@ let ratt = matrix(11,11,0);
 let fel = matrix(11,11,0);
 let tidfel = matrix(11,11,0);
 let status = matrix(11,11,0);
-let msgSvar = `V&auml;kommen!`;
+let msgSvar = `V&auml;lkommen!`;
 let countdown = 4;
 
 const MODE_DISABLED = 0;
